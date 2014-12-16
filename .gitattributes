@@ -1,1 +1,11 @@
 * text=auto !eol
+PriorityQWorkshopNative/.cproject -text svneol=unset#text/plain
+PriorityQWorkshopNative/.project -text svneol=unset#text/plain
+PriorityQWorkshopNative/PriorityQueue/IPriorityQueue.h -text svneol=unset#text/plain
+PriorityQWorkshopNative/PriorityQueue/NaiveLockSprayListPriorityQueue.cpp -text svneol=unset#text/plain
+PriorityQWorkshopNative/PriorityQueue/NaiveLockSprayListPriorityQueue.h -text svneol=unset#text/plain
+PriorityQWorkshopNative/PriorityQueue/SprayListNode.cpp -text svneol=unset#text/plain
+PriorityQWorkshopNative/PriorityQueue/SprayListPriorityQueue.cpp -text svneol=unset#text/plain
+PriorityQWorkshopNative/PriorityQueue/SprayListPriorityQueue.h -text svneol=unset#text/plain
+PriorityQWorkshopNative/makefile -text
+PriorityQWorkshopNative/mytest.cpp -text svneol=unset#text/plain
