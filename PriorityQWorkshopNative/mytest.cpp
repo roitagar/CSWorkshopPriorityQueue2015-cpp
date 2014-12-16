@@ -2,6 +2,22 @@
 #include "PriorityQueue/IPriorityQueue.h"
 #include "PriorityQueue/NaiveLockSprayListPriorityQueue.h"
 
+void printList(SprayListNode* head)
+{
+	SprayListNode* curr;
+	for(int i=0;i<5;i++)
+	{
+		curr = head;
+		printf("level %d: ", i);
+		while(curr)
+		{
+			printf("%d->", curr->value);
+			curr = curr->next[i];
+		}
+		printf("\n");
+	}
+}
+
 int main()
 {
 //	IPriorityQueue* q;
@@ -20,15 +36,14 @@ int main()
 	printf("Hi there\n");
 
 	// print the skiplist:
-	SprayListNode* curr = q->head();
-	while(curr)
-	{
-		printf("Node %d\n", curr->value);
-		curr = curr->next[0];
-	}
+	printList(q->head());
+
 	// deletemin all
 	while(!q->IsEmpty())
 	{
 		printf("Got %d\n", q->DeleteMin());
+		printList(q->head());
 	}
+
+	delete q;
 }

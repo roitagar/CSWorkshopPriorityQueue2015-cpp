@@ -5,6 +5,7 @@ SprayListNode::SprayListNode(int value, int height)
 	this->value = value;
 	this->_fullyLinked = false;
 	this->_marked = false;
+	this->_height = height;
 	this->next = new SprayListNode*[height+1];
 
 }

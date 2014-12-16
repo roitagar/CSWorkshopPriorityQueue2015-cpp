@@ -144,7 +144,7 @@ int SprayListPriorityQueue::DeleteMin()
 		int D = 1; /* Math.max(1, log(log(p))) */
 		result = Spray(H,L,D);
 		retry = !Remove(result);
-	} while(retry);
+	} while(retry && !IsEmpty());
 	EndDeleteMin();
 	return result;
 }
@@ -211,6 +211,8 @@ bool SprayListPriorityQueue::Remove(int value)
 				}
 
 				UnlockNode(victim);
+
+				delete victim;
 
 				for (int i = 0; i <= highestLocked; i++)
 				{
