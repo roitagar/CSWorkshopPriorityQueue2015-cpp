@@ -1,4 +1,4 @@
-CPPSRCS		= mytest.cpp PriorityQueue/SprayListNode.cpp PriorityQueue/SprayListPriorityQueue.cpp PriorityQueue/NaiveLockSprayListPriorityQueue.cpp # cpp_framework.cpp
+CPPSRCS		= mytest.cpp PriorityQueue/SprayListNode.cpp PriorityQueue/SprayListPriorityQueue.cpp PriorityQueue/NaiveLockSprayListPriorityQueue.cpp PriorityQueue/GrainedLockSprayListPriorityQueue.cpp util/ThreadRandom.cpp framework/cpp_framework.cpp
 TARGET		= myrun
 
 CPP		= g++

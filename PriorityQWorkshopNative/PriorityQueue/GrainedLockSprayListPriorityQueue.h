@@ -1,13 +1,20 @@
-#ifndef NAIVELOCKSPRAYLISTPRIORITYQUEUE_H_
-#define NAIVELOCKSPRAYLISTPRIORITYQUEUE_H_
+/*
+ * GrainedLockSprayListPriorityQueue.h
+ *
+ *  Created on: Dec 16, 2014
+ *      Author: student
+ */
+
+#ifndef GRAINEDLOCKSPRAYLISTPRIORITYQUEUE_H_
+#define GRAINEDLOCKSPRAYLISTPRIORITYQUEUE_H_
 
 #include "SprayListPriorityQueue.h"
-#include <pthread.h>
+#include "../framework/cpp_framework.h"
 
-class NaiveLockSprayListPriorityQueue: public SprayListPriorityQueue {
+class GrainedLockSprayListPriorityQueue: public SprayListPriorityQueue {
 public:
-	NaiveLockSprayListPriorityQueue(int height);
-	virtual ~NaiveLockSprayListPriorityQueue();
+	GrainedLockSprayListPriorityQueue(int maxHeight);
+	virtual ~GrainedLockSprayListPriorityQueue();
 protected:
 	virtual bool CanInsertBetween(SprayListNode* pred, SprayListNode* succ, int level);
 	virtual void LockNode(SprayListNode* node);
@@ -26,8 +33,7 @@ protected:
 	virtual bool ReadyToBeDeleted(SprayListNode* victim);
 
 private:
-	int _threads;
-	CCP::ReentrantLock _lock;
+	CCP::AtomicInteger _threads;
 };
 
-#endif /* NAIVELOCKSPRAYLISTPRIORITYQUEUE_H_ */
+#endif /* GRAINEDLOCKSPRAYLISTPRIORITYQUEUE_H_ */

@@ -1,52 +1,41 @@
 #include "NaiveLockSprayListPriorityQueue.h"
-#include <stdlib.h>
 
 NaiveLockSprayListPriorityQueue::NaiveLockSprayListPriorityQueue(int maxHeight)
 : SprayListPriorityQueue(maxHeight)
 {
 	_threads = 0;
-	_lock =  PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP;
 }
 
 NaiveLockSprayListPriorityQueue::~NaiveLockSprayListPriorityQueue() {
-	pthread_mutex_destroy(&_lock);
 }
 
-bool NaiveLockSprayListPriorityQueue::CanInsertBetween(SprayListNode* pred, SprayListNode* succ, int level)
-{
-	return true;
-}
-void NaiveLockSprayListPriorityQueue::LockNode(SprayListNode* node)
-{
-
-}
-void NaiveLockSprayListPriorityQueue::UnlockNode(SprayListNode* node)
-{
-
-}
 void NaiveLockSprayListPriorityQueue::StartInsert()
 {
-	pthread_mutex_lock(&_lock);
+	_lock.lock();
 	_threads++;
 }
+
 void NaiveLockSprayListPriorityQueue::EndInsert()
 {
 	_threads--;
-	pthread_mutex_unlock(&_lock);
+	_lock.unlock();
 }
+
 int NaiveLockSprayListPriorityQueue::RandomLevel()
 {
 	return RandomStep(_maxAllowedHeight);
 }
+
 void NaiveLockSprayListPriorityQueue::StartDeleteMin()
 {
-	pthread_mutex_lock(&_lock);
+	_lock.lock();
 	_threads++;
 }
+
 void NaiveLockSprayListPriorityQueue::EndDeleteMin()
 {
 	_threads--;
-	pthread_mutex_unlock(&_lock);
+	_lock.unlock();
 }
 
 // Number of threads currently calling deleteMin
@@ -57,7 +46,22 @@ int NaiveLockSprayListPriorityQueue::GetNumberOfThreads()
 
 int NaiveLockSprayListPriorityQueue::RandomStep(int max)
 {
-	return rand()%(max+1);
+	return _random.get()->nextInt(max+1);
+}
+
+bool NaiveLockSprayListPriorityQueue::CanInsertBetween(SprayListNode* pred, SprayListNode* succ, int level)
+{
+	return true;
+}
+
+void NaiveLockSprayListPriorityQueue::LockNode(SprayListNode* node)
+{
+
+}
+
+void NaiveLockSprayListPriorityQueue::UnlockNode(SprayListNode* node)
+{
+
 }
 
 bool NaiveLockSprayListPriorityQueue::ReadyToBeDeleted(SprayListNode* victim)

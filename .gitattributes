@@ -1,11 +1,25 @@
 * text=auto !eol
 PriorityQWorkshopNative/.cproject -text svneol=unset#text/plain
 PriorityQWorkshopNative/.project -text svneol=unset#text/plain
+PriorityQWorkshopNative/PriorityQueue/GrainedLockSprayListPriorityQueue.cpp -text svneol=unset#text/plain
+PriorityQWorkshopNative/PriorityQueue/GrainedLockSprayListPriorityQueue.h -text svneol=unset#text/plain
 PriorityQWorkshopNative/PriorityQueue/IPriorityQueue.h -text svneol=unset#text/plain
 PriorityQWorkshopNative/PriorityQueue/NaiveLockSprayListPriorityQueue.cpp -text svneol=unset#text/plain
 PriorityQWorkshopNative/PriorityQueue/NaiveLockSprayListPriorityQueue.h -text svneol=unset#text/plain
 PriorityQWorkshopNative/PriorityQueue/SprayListNode.cpp -text svneol=unset#text/plain
 PriorityQWorkshopNative/PriorityQueue/SprayListPriorityQueue.cpp -text svneol=unset#text/plain
 PriorityQWorkshopNative/PriorityQueue/SprayListPriorityQueue.h -text svneol=unset#text/plain
+PriorityQWorkshopNative/framework/cpp_framework.cpp -text svneol=unset#text/plain
+PriorityQWorkshopNative/framework/cpp_framework.h -text svneol=unset#text/plain
+PriorityQWorkshopNative/framework/ia64_defns.h -text svneol=unset#text/plain
+PriorityQWorkshopNative/framework/intel64_defns.h -text svneol=unset#text/plain
+PriorityQWorkshopNative/framework/intel_defns.h -text svneol=unset#text/plain
+PriorityQWorkshopNative/framework/portable_defns.h -text svneol=unset#text/plain
+PriorityQWorkshopNative/framework/sparc64_defns.h -text svneol=unset#text/plain
+PriorityQWorkshopNative/framework/sparc_defns.h -text svneol=unset#text/plain
+PriorityQWorkshopNative/framework/sparc_mcas.il -text
+PriorityQWorkshopNative/framework/win_defns.h -text svneol=unset#text/plain
 PriorityQWorkshopNative/makefile -text
 PriorityQWorkshopNative/mytest.cpp -text svneol=unset#text/plain
+PriorityQWorkshopNative/util/ThreadRandom.cpp -text svneol=unset#text/plain
+PriorityQWorkshopNative/util/ThreadRandom.h -text svneol=unset#text/plain

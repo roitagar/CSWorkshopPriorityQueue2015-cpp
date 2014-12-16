@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "PriorityQueue/IPriorityQueue.h"
 #include "PriorityQueue/NaiveLockSprayListPriorityQueue.h"
+#include "PriorityQueue/GrainedLockSprayListPriorityQueue.h"
 
 void printList(SprayListNode* head)
 {
@@ -20,10 +21,11 @@ void printList(SprayListNode* head)
 
 int main()
 {
-//	IPriorityQueue* q;
-	NaiveLockSprayListPriorityQueue* q;
+	//IPriorityQueue* q;
+	SprayListPriorityQueue* q;
 	printf("Hi there\n");
-	q = new NaiveLockSprayListPriorityQueue(5);
+//	q = new NaiveLockSprayListPriorityQueue(5);
+	q = new GrainedLockSprayListPriorityQueue(5);
 	printf("Hi there\n");
 	q->Insert(5);
 	printf("Hi there\n");

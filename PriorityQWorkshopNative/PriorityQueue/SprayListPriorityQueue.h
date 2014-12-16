@@ -2,6 +2,8 @@
 #define SPRAYLISTPRIORITYQUEUE_H_
 
 #include "IPriorityQueue.h"
+#include "../framework/cpp_framework.h"
+#include "../util/ThreadRandom.h"
 
 class SprayListNode
 {
@@ -15,12 +17,12 @@ public:
 	bool IsFullyLinked();
 	void SetFullyLinked();
 	int TopLevel();
+	CCP::ReentrantLock lock;
 
 private:
 	int _height;
 	bool _fullyLinked;
 	bool _marked;
-	// TODO: Add mutex,
 };
 
 class SprayListPriorityQueue : public IPriorityQueue
@@ -31,10 +33,12 @@ public:
 	virtual void Insert(int value);
 	virtual int DeleteMin();
 	virtual bool IsEmpty();
+	SprayListNode* head() { return _head;} // For printing purposes // TODO: Remove
 protected:
 	SprayListNode* _head;
 	SprayListNode* _tail;
 	int _maxAllowedHeight;
+	ThreadRandom _random;
 
 	virtual bool CanInsertBetween(SprayListNode* pred, SprayListNode* succ, int level) = 0;
 	virtual void LockNode(SprayListNode* node) = 0;
