@@ -5,9 +5,11 @@ NaiveLockSprayListPriorityQueue::NaiveLockSprayListPriorityQueue(int maxHeight)
 : SprayListPriorityQueue(maxHeight)
 {
 	_threads = 0;
+	_lock =  PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP;
 }
 
 NaiveLockSprayListPriorityQueue::~NaiveLockSprayListPriorityQueue() {
+	pthread_mutex_destroy(&_lock);
 }
 
 bool NaiveLockSprayListPriorityQueue::CanInsertBetween(SprayListNode* pred, SprayListNode* succ, int level)
@@ -24,13 +26,13 @@ void NaiveLockSprayListPriorityQueue::UnlockNode(SprayListNode* node)
 }
 void NaiveLockSprayListPriorityQueue::StartInsert()
 {
-	// TODO: Lock
+	pthread_mutex_lock(&_lock);
 	_threads++;
 }
 void NaiveLockSprayListPriorityQueue::EndInsert()
 {
-	// TODO: unlock
 	_threads--;
+	pthread_mutex_unlock(&_lock);
 }
 int NaiveLockSprayListPriorityQueue::RandomLevel()
 {
@@ -38,13 +40,13 @@ int NaiveLockSprayListPriorityQueue::RandomLevel()
 }
 void NaiveLockSprayListPriorityQueue::StartDeleteMin()
 {
-	// TODO: Lock
+	pthread_mutex_lock(&_lock);
 	_threads++;
 }
 void NaiveLockSprayListPriorityQueue::EndDeleteMin()
 {
-	// TODO: Unlock
 	_threads--;
+	pthread_mutex_unlock(&_lock);
 }
 
 // Number of threads currently calling deleteMin

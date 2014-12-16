@@ -3,8 +3,8 @@ TARGET		= myrun
 
 CPP		= g++
 
-CPPFLAGS	= #-O3 -m64 -DNDEBUG -DINTEL64 -D_REENTRANT -lrt -pthread  
-LFLAGS		= #-O3 -m64 -DNDEBUG -DINTEL64 -D_REENTRANT -lrt -pthread
+CPPFLAGS	= -O3 -DNDEBUG -DINTEL64 -D_REENTRANT -lrt -pthread #-m64  
+LFLAGS		= -O3 -DNDEBUG -DINTEL64 -D_REENTRANT -lrt -pthread #-m64
 
 OBJS		= $(CPPSRCS:.cpp=.o)
 

@@ -9,6 +9,7 @@
 #define NAIVELOCKSPRAYLISTPRIORITYQUEUE_H_
 
 #include "SprayListPriorityQueue.h"
+#include <pthread.h>
 
 class NaiveLockSprayListPriorityQueue: public SprayListPriorityQueue {
 public:
@@ -34,6 +35,7 @@ protected:
 
 private:
 	int _threads;
+	pthread_mutex_t _lock;
 };
 
 #endif /* NAIVELOCKSPRAYLISTPRIORITYQUEUE_H_ */
