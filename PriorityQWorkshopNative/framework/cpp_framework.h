@@ -279,7 +279,14 @@ namespace CCP {
 
 	class ReentrantLock {
 	public:
-		ReentrantLock()	{pthread_mutex_init(&_mutex,0);}
+		ReentrantLock()
+		{
+			// TODO: THIS IS A BUGFIX TO FRAMEWORK, ADDING RECURSIVE SETTING
+			pthread_mutexattr_init(&_attr);
+			pthread_mutexattr_settype(&_attr, PTHREAD_MUTEX_RECURSIVE);
+			pthread_mutex_init(&_mutex,&_attr);
+		}
+
 		~ReentrantLock()	{pthread_mutex_destroy(&_mutex);}
 
  		inline_ void lock()		{pthread_mutex_lock( &_mutex );}
@@ -287,6 +294,7 @@ namespace CCP {
 		inline_ void unlock()	{pthread_mutex_unlock( &_mutex );}
 	private:
 		pthread_mutex_t _mutex;
+		pthread_mutexattr_t _attr;
 	};
 
 	class ReentrantReadWriteLock {
