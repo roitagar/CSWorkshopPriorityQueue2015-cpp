@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "PriorityQueue/IPriorityQueue.h"
 #include "PriorityQueue/news/IPriorityQueue.h"
-#include "PriorityQueue/news/SeqSprayListPriorityQueue.h" // TODO: Change to global
+#include "PriorityQueue/news/GlobalLockSprayListPriorityQueue.h"
 #include "PriorityQueue/NaiveLockSprayListPriorityQueue.h"
 #include "PriorityQueue/GrainedLockSprayListPriorityQueue.h"
 #include "Test/Workers.h"
@@ -70,10 +70,12 @@ int main()
 //	IPriorityQueue* pq = new GrainedLockSprayListPriorityQueue(TOP_LEVEL);
 //	SprayListPriorityQueue* pq = new GrainedLockSprayListPriorityQueue(TOP_LEVEL);
 //	SprayListPriorityQueue* pq = new NaiveLockSprayListPriorityQueue(TOP_LEVEL);
-	IPriorityQueue* pq = new SeqSprayListPriorityQueue(TOP_LEVEL);
-	testBench3(pq); // TODO: Resore
+	IPriorityQueue* pq = new GlobalLockSprayListPriorityQueue(TOP_LEVEL);
+	testBench3(pq);
 
 	delete pq;
+
+	printf("Done!\n");
 //	InsertWorker* w = new InsertWorker(pq, 5,100);
 //
 //	w->start();
