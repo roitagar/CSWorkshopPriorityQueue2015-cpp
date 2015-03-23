@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include "PriorityQueue/IPriorityQueue.h"
+#include "PriorityQueue/news/IPriorityQueue.h"
+#include "PriorityQueue/news/SeqSprayListPriorityQueue.h" // TODO: Change to global
 #include "PriorityQueue/NaiveLockSprayListPriorityQueue.h"
 #include "PriorityQueue/GrainedLockSprayListPriorityQueue.h"
 #include "Test/Workers.h"
@@ -7,33 +9,33 @@
 
 #define TOP_LEVEL 10
 
-void printList(SprayListNode* head)
-{
-	SprayListNode* curr;
-	for(int i=0;i<TOP_LEVEL;i++)
-	{
-		curr = head;
-		printf("level %d: ", i);
-		while(curr)
-		{
-			printf("%d->", curr->value);
-			curr = curr->next[i];
-		}
-		printf("\n");
-	}
-}
+//void printList(SprayListNode* head)
+//{
+//	SprayListNode* curr;
+//	for(int i=0;i<TOP_LEVEL;i++)
+//	{
+//		curr = head;
+//		printf("level %d: ", i);
+//		while(curr)
+//		{
+//			printf("%d->", curr->value);
+//			curr = curr->next[i];
+//		}
+//		printf("\n");
+//	}
+//}
 
-void printForHistogram(SprayListNode* head)
-{
-	SprayListNode* curr = head;
-	while(curr)
-	{
-		printf("%d\t%d\n", curr->value, curr->TopLevel());
-		curr = curr->next[0];
-	}
-}
+//void printForHistogram(SprayListNode* head)
+//{
+//	SprayListNode* curr = head;
+//	while(curr)
+//	{
+//		printf("%d\t%d\n", curr->value, curr->TopLevel());
+//		curr = curr->next[0];
+//	}
+//}
 
-void testBench3(SprayListPriorityQueue* queue);
+void testBench3(IPriorityQueue* queue);
 
 int main()
 {
@@ -66,9 +68,10 @@ int main()
 //	delete q;
 
 //	IPriorityQueue* pq = new GrainedLockSprayListPriorityQueue(TOP_LEVEL);
-	SprayListPriorityQueue* pq = new GrainedLockSprayListPriorityQueue(TOP_LEVEL);
+//	SprayListPriorityQueue* pq = new GrainedLockSprayListPriorityQueue(TOP_LEVEL);
 //	SprayListPriorityQueue* pq = new NaiveLockSprayListPriorityQueue(TOP_LEVEL);
-	testBench3(pq);
+	IPriorityQueue* pq = new SeqSprayListPriorityQueue(TOP_LEVEL);
+	testBench3(pq); // TODO: Resore
 
 	delete pq;
 //	InsertWorker* w = new InsertWorker(pq, 5,100);
@@ -85,7 +88,7 @@ int main()
 //	delete w2;
 }
 
-	void testBench3(SprayListPriorityQueue* queue) {
+	void testBench3(IPriorityQueue* queue) {
 		StopWatch* timer1 = new StopWatch();
 		StopWatch* timer2 = new StopWatch();
 

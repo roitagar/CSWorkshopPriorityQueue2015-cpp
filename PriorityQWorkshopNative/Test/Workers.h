@@ -1,4 +1,5 @@
 #include "../PriorityQueue/IPriorityQueue.h"
+#include "../PriorityQueue/news/IPriorityQueue.h"
 #include "../framework/cpp_framework.h"
 #include <stdio.h>
 
@@ -19,7 +20,7 @@ public:
 	virtual void run()
 	{
 		for(int i=_from;i<_from+_amount;i++){
-			_queue->Insert(i);
+			_queue->insert(i);
 		}
 	}
 };
@@ -37,10 +38,10 @@ public:
 
 	void run()
 	{
-		while(!_queue->IsEmpty())
+		while(!_queue->isEmpty())
 		{
 			int result;
-			result = _queue->DeleteMin();
+			result = _queue->deleteMin();
 			printf("%d\n",result); //TODO modify
 		}
 	}

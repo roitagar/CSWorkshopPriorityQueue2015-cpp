@@ -25,7 +25,7 @@ private:
 	bool _marked;
 };
 
-class SprayListPriorityQueue : public IPriorityQueue
+class SprayListPriorityQueue : public IPriorityQueueOld
 {
 public:
 	SprayListPriorityQueue(int maxAllowedHeight);

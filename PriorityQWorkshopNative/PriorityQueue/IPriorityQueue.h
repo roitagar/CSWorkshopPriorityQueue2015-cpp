@@ -1,7 +1,7 @@
-#ifndef PRIORITYQUEUE_H_
-#define PRIORITYQUEUE_H_
+#ifndef PRIORITYQUEUE_OLD_H_
+#define PRIORITYQUEUE_OLD_H_
 
-class IPriorityQueue
+class IPriorityQueueOld
 {
 public:
 	virtual void Insert(int value) = 0;
@@ -10,4 +10,4 @@ public:
 //	virtual int size() = 0;
 };
 
-#endif /* PRIORITYQUEUE_H_ */
+#endif /* PRIORITYQUEUE_OLD_H_ */
