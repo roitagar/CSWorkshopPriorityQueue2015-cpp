@@ -1,6 +1,9 @@
 #include <cmath>
 #include "serviceClass.h"
 
+// Definition
+ThreadRandom serviceClass::_random;
+
 int serviceClass::randomStep(int max) {
 		return _random.get()->nextInt(max+1);
 	}
@@ -25,4 +28,8 @@ int serviceClass::randomLevel(int maxAllowedHeight) {
 
 	/*We have to reverse it */
 	return (maxAllowedHeight - n);
+}
+
+void serviceClass::cleanup() {
+	delete _random.get();
 }

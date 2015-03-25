@@ -6,12 +6,16 @@
 class serviceClass
 {
 public:
-	int randomStep(int max);
+	static int randomStep(int max);
 
-	int randomLevel(int maxAllowedHeight);
+	static int randomLevel(int maxAllowedHeight);
+
+	// Deletes the ThreadRandom object of the calling thread
+	// Only call before thread completion
+	static void cleanup();
 
 private:
-	ThreadRandom _random;
+	static ThreadRandom _random;
 };
 
 #endif /* SERVICECLASS_H_ */

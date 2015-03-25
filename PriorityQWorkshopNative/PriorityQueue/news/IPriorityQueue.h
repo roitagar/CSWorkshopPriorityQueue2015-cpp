@@ -4,6 +4,7 @@
 class IPriorityQueue
 {
 public:
+	virtual ~IPriorityQueue() { }
 	virtual bool insert(int value) = 0;
 	virtual int deleteMin() = 0;
 	virtual bool isEmpty() = 0;

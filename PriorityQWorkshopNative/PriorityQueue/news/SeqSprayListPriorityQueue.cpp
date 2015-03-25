@@ -83,7 +83,7 @@ int SeqSprayListPriorityQueue::find(int value, SeqSprayListNode** preds, SeqSpra
 
 bool SeqSprayListPriorityQueue::insert(int value)
 {
-	int topLevel = _service.randomLevel(_maxAllowedHeight);
+	int topLevel = serviceClass::randomLevel(_maxAllowedHeight);
 	bool result;
 
 	SeqSprayListNode** preds = new SeqSprayListNode*[_maxAllowedHeight+1];
@@ -156,6 +156,7 @@ boolean SeqSprayListPriorityQueue::remove(int value)
 			preds[level]->next[level] = victim->next[level];
 		}
 
+		delete victim;
 		result = true;
 	}
 
@@ -178,7 +179,7 @@ int SeqSprayListPriorityQueue::spray(int H, int L, int D)
 	int level = H;
 	while(level>=0)
 	{
-		int j = _service.randomStep(L);
+		int j = serviceClass::randomStep(L);
 		/*
 		 * Don't stay on head
 		 * Don't advance beyond tail

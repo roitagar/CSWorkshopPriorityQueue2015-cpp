@@ -2,6 +2,7 @@
 #include "PriorityQueue/IPriorityQueue.h"
 #include "PriorityQueue/news/IPriorityQueue.h"
 #include "PriorityQueue/news/GlobalLockSprayListPriorityQueue.h"
+#include "PriorityQueue/news/LazyLockSparyListPriorityQueue.h"
 #include "PriorityQueue/NaiveLockSprayListPriorityQueue.h"
 #include "PriorityQueue/GrainedLockSprayListPriorityQueue.h"
 #include "Test/Workers.h"
@@ -70,7 +71,8 @@ int main()
 //	IPriorityQueue* pq = new GrainedLockSprayListPriorityQueue(TOP_LEVEL);
 //	SprayListPriorityQueue* pq = new GrainedLockSprayListPriorityQueue(TOP_LEVEL);
 //	SprayListPriorityQueue* pq = new NaiveLockSprayListPriorityQueue(TOP_LEVEL);
-	IPriorityQueue* pq = new GlobalLockSprayListPriorityQueue(TOP_LEVEL);
+//	IPriorityQueue* pq = new GlobalLockSprayListPriorityQueue(TOP_LEVEL);
+	IPriorityQueue* pq = new LazyLockSparyListPriorityQueue(TOP_LEVEL);
 	testBench3(pq);
 
 	delete pq;

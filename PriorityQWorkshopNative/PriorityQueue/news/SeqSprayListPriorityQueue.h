@@ -4,7 +4,6 @@
 #include "IPriorityQueue.h"
 #include "../../framework/cpp_framework.h"
 #include "../../util/ThreadRandom.h"
-#include "serviceClass.h"
 
 class SeqSprayListNode
 {
@@ -12,7 +11,7 @@ public:
 	int value;
 	SeqSprayListNode** next;
 	SeqSprayListNode(int value, int height);
-	~SeqSprayListNode();
+	virtual ~SeqSprayListNode();
 	int topLevel();
 
 private:
@@ -33,7 +32,6 @@ protected:
 	SeqSprayListNode* _tail;
 	int _maxAllowedHeight;
 	ThreadRandom _random;
-	serviceClass _service;
 
 	/**
 	 * Returns the number of active threads. Used for spray height.

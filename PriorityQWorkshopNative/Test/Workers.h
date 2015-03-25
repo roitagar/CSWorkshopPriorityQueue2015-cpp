@@ -3,6 +3,8 @@
 #include "../framework/cpp_framework.h"
 #include <stdio.h>
 
+#include "../PriorityQueue/news/serviceClass.h"
+
 class InsertWorker : public CCP::Thread
 {
 private:
@@ -22,6 +24,8 @@ public:
 		for(int i=_from;i<_from+_amount;i++){
 			_queue->insert(i);
 		}
+
+		serviceClass::cleanup();
 	}
 };
 
@@ -44,5 +48,7 @@ public:
 			result = _queue->deleteMin();
 			printf("%d\n",result); //TODO modify
 		}
+
+		serviceClass::cleanup();
 	}
 };
