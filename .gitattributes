@@ -19,6 +19,8 @@ PriorityQWorkshopNative/PriorityQueue/news/SeqSprayListPriorityQueue.h -text svn
 PriorityQWorkshopNative/PriorityQueue/news/serviceClass.cpp -text svneol=unset#text/plain
 PriorityQWorkshopNative/PriorityQueue/news/serviceClass.h -text svneol=unset#text/plain
 PriorityQWorkshopNative/Test/StopWatch.h -text
+PriorityQWorkshopNative/Test/TestBench.h -text svneol=unset#text/plain
+PriorityQWorkshopNative/Test/TestUtils.h -text svneol=unset#text/plain
 PriorityQWorkshopNative/Test/Workers.h -text
 PriorityQWorkshopNative/framework/cpp_framework.cpp -text svneol=unset#text/plain
 PriorityQWorkshopNative/framework/cpp_framework.h -text svneol=unset#text/plain

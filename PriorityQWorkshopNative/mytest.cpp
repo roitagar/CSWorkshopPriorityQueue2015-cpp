@@ -7,6 +7,9 @@
 #include "PriorityQueue/GrainedLockSprayListPriorityQueue.h"
 #include "Test/Workers.h"
 #include "Test/StopWatch.h"
+#include "Test/TestBench.h"
+#include "Test/TestUtils.h"
+#include <string>
 
 #define TOP_LEVEL 10
 
@@ -73,9 +76,16 @@ int main()
 //	SprayListPriorityQueue* pq = new NaiveLockSprayListPriorityQueue(TOP_LEVEL);
 //	IPriorityQueue* pq = new GlobalLockSprayListPriorityQueue(TOP_LEVEL);
 	IPriorityQueue* pq = new LazyLockSparyListPriorityQueue(TOP_LEVEL);
-	testBench3(pq);
+//	testBench3(pq);
 
 	delete pq;
+
+	std::string res[3];
+	res[0] = "ba";
+	res[1] = "ga";
+	res[2] = "da";
+
+	saveResult(res, 3);
 
 	printf("Done!\n");
 //	InsertWorker* w = new InsertWorker(pq, 5,100);
@@ -125,7 +135,7 @@ int main()
 
 
 
-		timer1->StartTimer();
+		timer1->startTimer();
 
 		//    try {
 			//         Thread.sleep(numMilliseconds);
@@ -142,12 +152,12 @@ int main()
 
 		delete [] insertWorkers;
 
-		timer1->StopTimer();
+		timer1->stopTimer();
 //		printf("List after all insertions:\n");
 //		printForHistogram(queue->head());
 
 		printf("Starting delete\n");
-		timer2->StartTimer();
+		timer2->startTimer();
 		for(int i=0;i<numWorkers;i++)
 		{
 			deleteWorkers[i]->start();
@@ -167,11 +177,11 @@ int main()
 
 		delete [] deleteWorkers;
 
-		timer2->StopTimer();
+		timer2->stopTimer();
 		// Output the statistics
 
-		printf("insert time %u\n", (unsigned int)timer1->GetElapsedTime());
-		printf("delete time %u\n", (unsigned int)timer2->GetElapsedTime());
+		printf("insert time %u\n", (unsigned int)timer1->getElapsedTime());
+		printf("delete time %u\n", (unsigned int)timer2->getElapsedTime());
 		delete timer1;
 		delete timer2;
 	}

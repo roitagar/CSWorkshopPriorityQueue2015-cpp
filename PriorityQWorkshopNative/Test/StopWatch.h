@@ -9,17 +9,17 @@ private:
 	tick_t startTime;
 	tick_t stopTime;
 public:
-	void StartTimer()
+	void startTimer()
 	{
 		startTime = CCP::System::currentTimeMillis();
 	}
 
-	void StopTimer()
+	void stopTimer()
 	{
 		stopTime = CCP::System::currentTimeMillis();
 	}
 
-	tick_t GetElapsedTime()
+	tick_t getElapsedTime()
 	{
 		return stopTime - startTime;
 	}
