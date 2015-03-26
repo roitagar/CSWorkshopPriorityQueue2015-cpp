@@ -1,3 +1,6 @@
+#ifndef GLOBALLOCKSPRAYLISTPRIORITYQUEUE_H_
+#define GLOBALLOCKSPRAYLISTPRIORITYQUEUE_H_
+
 #include "SeqSprayListPriorityQueue.h"
 #include "../../framework/cpp_framework.h"
 
@@ -13,3 +16,5 @@ public:
 	virtual bool insert(int value);
 	virtual int deleteMin();
 };
+
+#endif /* GLOBALLOCKSPRAYLISTPRIORITYQUEUE_H_ */

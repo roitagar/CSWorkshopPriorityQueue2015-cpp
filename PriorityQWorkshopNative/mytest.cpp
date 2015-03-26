@@ -9,6 +9,7 @@
 #include "Test/StopWatch.h"
 #include "Test/TestBench.h"
 #include "Test/TestUtils.h"
+#include "Test/PriorityQueueFactory.h"
 #include <string>
 
 #define TOP_LEVEL 10

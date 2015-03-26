@@ -32,7 +32,8 @@ protected:
 	StopWatch _deleteTimer;
 
 public:
-
+	TestBench() { _result = NULL; _queue = NULL; }
+	~TestBench() { if(_result) delete _result; }
 	inline void setNumInsertWorkers(int numInsertWorkers){
 		_numInsertWorkers = numInsertWorkers;
 	}
@@ -160,7 +161,7 @@ protected:
 		if(_result != NULL)
 			delete _result;
 
-		_result=result;
+		_result = result;
 	}
 
 };
