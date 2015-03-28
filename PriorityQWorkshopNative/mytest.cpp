@@ -39,7 +39,7 @@
 //		curr = curr->next[0];
 //	}
 //}
-
+//extern TestBench& testBench1;
 void testBench3(IPriorityQueue* queue);
 
 int main()
@@ -80,7 +80,8 @@ int main()
 //	testBench3(pq);
 
 	delete pq;
-
+//	test1.runTest();
+//	testBench1.runTest();
 	std::string res[3];
 	res[0] = "ba";
 	res[1] = "ga";
@@ -102,87 +103,91 @@ int main()
 //	w2->join();
 //	delete w2;
 }
-
-	void testBench3(IPriorityQueue* queue) {
-		StopWatch* timer1 = new StopWatch();
-		StopWatch* timer2 = new StopWatch();
-
-
-		int numWorkers = 8;
-
-		InsertWorker** insertWorkers = new  InsertWorker*[numWorkers];
-//		CCP::Thread* insertWorkerThreads[] = new CCP::Thread*[numWorkers];
-
-		for(int i=0;i<numWorkers; i++)
-		{
-			insertWorkers[i] = new InsertWorker(queue, 100*i ,100);
-//			insertWorkerThreads[i] = new CCP::Thread(insertWorkers[i]);
-		}
-
-		DeleteWorker** deleteWorkers = new  DeleteWorker*[numWorkers];
-//		Thread[] deleteWorkerThreads = new Thread[numWorkers];
-
-		for(int i=0;i<numWorkers; i++)
-		{
-			deleteWorkers[i] = new DeleteWorker(queue);
-//			deleteWorkerThreads[i] = new Thread(deleteWorkers[i]);
-		}
-
-
-		for(int i=0;i<numWorkers;i++)
-		{
-			insertWorkers[i]->start();
-		}
-
-
-
-		timer1->startTimer();
-
-		//    try {
-			//         Thread.sleep(numMilliseconds);
-		//    } catch (InterruptedException ignore) {;}
-
-
-		for(int i=0;i<numWorkers;i++)
-		{
-//			try {
-				insertWorkers[i]->join();
-				delete insertWorkers[i];
-//			} catch (InterruptedException ignore) {;}
-		}
-
-		delete [] insertWorkers;
-
-		timer1->stopTimer();
-//		printf("List after all insertions:\n");
-//		printForHistogram(queue->head());
-
-		printf("Starting delete\n");
-		timer2->startTimer();
-		for(int i=0;i<numWorkers;i++)
-		{
-			deleteWorkers[i]->start();
-		}
-
-//		printf("Mid state:\n");
-//		usleep(3000);
-//		printForHistogram(queue->head());
-
-		for(int i=0;i<numWorkers;i++)
-		{
-//			try {
-				deleteWorkers[i]->join();
-				delete deleteWorkers[i];
-//			} catch (InterruptedException ignore) {;}
-		}
-
-		delete [] deleteWorkers;
-
-		timer2->stopTimer();
-		// Output the statistics
-
-		printf("insert time %u\n", (unsigned int)timer1->getElapsedTime());
-		printf("delete time %u\n", (unsigned int)timer2->getElapsedTime());
-		delete timer1;
-		delete timer2;
-	}
+//class : public TestBench {
+//	virtual void run() { printf("It's alive\n");}
+//} test1;
+//
+//TestBench& testBench1 = test1;
+//	void testBench3(IPriorityQueue* queue) {
+//		StopWatch* timer1 = new StopWatch();
+//		StopWatch* timer2 = new StopWatch();
+//
+//
+//		int numWorkers = 8;
+//
+//		InsertWorker** insertWorkers = new  InsertWorker*[numWorkers];
+////		CCP::Thread* insertWorkerThreads[] = new CCP::Thread*[numWorkers];
+//
+//		for(int i=0;i<numWorkers; i++)
+//		{
+//			insertWorkers[i] = new InsertWorker(queue, 100*i ,100);
+////			insertWorkerThreads[i] = new CCP::Thread(insertWorkers[i]);
+//		}
+//
+//		DeleteWorker** deleteWorkers = new  DeleteWorker*[numWorkers];
+////		Thread[] deleteWorkerThreads = new Thread[numWorkers];
+//
+//		for(int i=0;i<numWorkers; i++)
+//		{
+//			deleteWorkers[i] = new DeleteWorker(queue);
+////			deleteWorkerThreads[i] = new Thread(deleteWorkers[i]);
+//		}
+//
+//
+//		for(int i=0;i<numWorkers;i++)
+//		{
+//			insertWorkers[i]->start();
+//		}
+//
+//
+//
+//		timer1->startTimer();
+//
+//		//    try {
+//			//         Thread.sleep(numMilliseconds);
+//		//    } catch (InterruptedException ignore) {;}
+//
+//
+//		for(int i=0;i<numWorkers;i++)
+//		{
+////			try {
+//				insertWorkers[i]->join();
+//				delete insertWorkers[i];
+////			} catch (InterruptedException ignore) {;}
+//		}
+//
+//		delete [] insertWorkers;
+//
+//		timer1->stopTimer();
+////		printf("List after all insertions:\n");
+////		printForHistogram(queue->head());
+//
+//		printf("Starting delete\n");
+//		timer2->startTimer();
+//		for(int i=0;i<numWorkers;i++)
+//		{
+//			deleteWorkers[i]->start();
+//		}
+//
+////		printf("Mid state:\n");
+////		usleep(3000);
+////		printForHistogram(queue->head());
+//
+//		for(int i=0;i<numWorkers;i++)
+//		{
+////			try {
+//				deleteWorkers[i]->join();
+//				delete deleteWorkers[i];
+////			} catch (InterruptedException ignore) {;}
+//		}
+//
+//		delete [] deleteWorkers;
+//
+//		timer2->stopTimer();
+//		// Output the statistics
+//
+//		printf("insert time %u\n", (unsigned int)timer1->getElapsedTime());
+//		printf("delete time %u\n", (unsigned int)timer2->getElapsedTime());
+//		delete timer1;
+//		delete timer2;
+//	}

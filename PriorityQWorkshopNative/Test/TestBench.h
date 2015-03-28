@@ -1,5 +1,8 @@
+#pragma once
+
 #include "../PriorityQueue/news/IPriorityQueue.h"
 #include "../framework/cpp_framework.h"
+#include "StopWatch.h"
 #include <stdlib.h>
 
 
