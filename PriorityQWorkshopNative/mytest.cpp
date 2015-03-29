@@ -13,7 +13,7 @@
 #include "Test/PriorityQueueFactory.h"
 #include <string>
 
-#define FACTORIES 2
+#define FACTORIES 1
 
 //void printList(SprayListNode* head)
 //{
@@ -44,8 +44,8 @@
 int main()
 {
 	const int skiplistHeight = 10;
-	const int highestOnQueue = 1000;
-	const int timeOutMillisecond = 50;
+	const int highestOnQueue = 100000;
+	const int timeOutMillisecond = 500;
 
 	int insertWorkerCount;
 	int deleteWorkerCount;
@@ -55,7 +55,7 @@ int main()
 			new GlobalLockSprayListPriorityQueueFactory(),
 //			new CoolSprayListPriorityQueueFactory(),
 //			new OptimisticCoolSprayListPriorityQueueFactory(),
-			new LazyLockSparyListPriorityQueueFactory()
+//			new LazyLockSparyListPriorityQueueFactory()
 	};
 
 	TestBench* simultaneousTests[] = {
