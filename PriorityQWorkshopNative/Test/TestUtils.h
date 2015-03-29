@@ -41,7 +41,7 @@ void saveResult(string* result, int count){
 	}
 
 	string fileName = "results_"+ timeStamp +".txt";
-	fstream output;
+	ofstream output;
 	output.open(fileName, fstream::app);
 	//		output = new BufferedWriter(new FileWriter(fileName, true));
 	//		output.append(buff.toString() + "\n");
@@ -50,7 +50,6 @@ void saveResult(string* result, int count){
 	//		System.out.println(buff.toString());
 	//		output.flush();
 	//		output.close();
-	output.close();
 
 	//		System.out.println("Error in print result to file");
 
