@@ -220,6 +220,8 @@ public:
 					_totalPackets++;
 			}
 		}
+
+		serviceClass::cleanup();
 	}
 };
 
@@ -259,6 +261,7 @@ public:
 
 		}
 
+		serviceClass::cleanup();
 	}
 };
 
@@ -294,6 +297,8 @@ public:
 				reallyDone = false;
 			}
 		}
+
+		serviceClass::cleanup();
 	}
 };
 
@@ -323,5 +328,7 @@ public:
 
 			result = deleteMin();
 		}
+
+		serviceClass::cleanup();
 	}
 };

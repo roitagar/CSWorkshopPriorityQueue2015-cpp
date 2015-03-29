@@ -6,6 +6,8 @@
 class serviceClass
 {
 public:
+	static int randomInt();
+
 	static int randomStep(int max);
 
 	static int randomLevel(int maxAllowedHeight);

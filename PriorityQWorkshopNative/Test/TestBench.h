@@ -3,6 +3,7 @@
 #include "../PriorityQueue/news/IPriorityQueue.h"
 #include "../framework/cpp_framework.h"
 #include "StopWatch.h"
+#include "Workers.h"
 #include <stdlib.h>
 
 
@@ -29,14 +30,48 @@ protected:
 	int _highest;
 	int _timeOutMilliseconds;
 
-	CCP::Thread** _insertWorkerThreads;
-	CCP::Thread** _deleteWorkerThreads;
+	InsertWorker** _insertWorkerThreads;
+	GradedWorkerBase** _deleteWorkerThreads;
 	StopWatch _insertTimer;
 	StopWatch _deleteTimer;
 
 public:
-	TestBench() { _result = NULL; _queue = NULL; }
-	~TestBench() { if(_result) delete _result; }
+	TestBench() {
+		_result = NULL;
+		_queue = NULL;
+		_insertWorkerThreads = NULL;
+		_deleteWorkerThreads = NULL;
+	}
+	~TestBench() {
+		if(_result) delete _result;
+		cleanWorkers();
+	}
+
+	void cleanWorkers()
+	{
+		if(_insertWorkerThreads)
+		{
+			for(int i=0; i < _numInsertWorkers; i++)
+			{
+				delete _insertWorkerThreads[i];
+			}
+
+			delete [] _insertWorkerThreads;
+			_insertWorkerThreads = NULL;
+		}
+
+		if(_deleteWorkerThreads)
+		{
+			for(int i=0;i<_numDeleteWorkers; i++)
+			{
+				delete _deleteWorkerThreads[i];
+			}
+
+			delete[] _deleteWorkerThreads;
+			_deleteWorkerThreads = NULL;
+		}
+	}
+
 	inline void setNumInsertWorkers(int numInsertWorkers){
 		_numInsertWorkers = numInsertWorkers;
 	}
@@ -47,7 +82,7 @@ public:
 	inline void setHighestOnQueue(int highest){
 		_highest = highest;
 	}
-	
+
 	inline int getItemsPerThread()
 	{
 		return _highest/_numInsertWorkers;
@@ -56,34 +91,34 @@ public:
 	inline void setTimeOutMillisecond(int timeOutMillisecond){
 		_timeOutMilliseconds = timeOutMillisecond;
 	}
-	
+
 protected:
 	inline void startAllWorkers()
 	{
 		startInsertWorkers();
 		startDeleteWorkers();
 	}
-	
+
 	inline void startInsertWorkers()
 	{
 		_insertTimer.startTimer();
-		
+
 		for(int i=0;i<_numInsertWorkers;i++)
 		{
 			_insertWorkerThreads[i]->start();
 		}
 	}
-	
+
 	inline void startDeleteWorkers()
 	{
 		_deleteTimer.startTimer();
-		
+
 		for(int i=0;i<_numDeleteWorkers;i++)
 		{
 			_deleteWorkerThreads[i]->start();
 		}
 	}
-	
+
 	inline void joinInsertWorkers()
 	{
 //		bool kicked = false;
@@ -98,10 +133,10 @@ protected:
 //				kicked = true;
 //			}
 		}
-		
+
 		_insertTimer.stopTimer();
 	}
-	
+
 	inline void joinDeleteWorkers()
 	{
 //		bool kicked = false;
@@ -116,16 +151,16 @@ protected:
 //				kicked = true;
 //			}
 		}
-		
+
 		_deleteTimer.stopTimer();
 	}
 
 public:
 	inline void runTest() {
 		// TODO: Initialize signals?
-		
+
 		// TODO: Initialize arrays
-		
+
 		// TODO: Initialize workers/threads
 		
 		run();

@@ -4,6 +4,10 @@
 // Definition
 ThreadRandom serviceClass::_random;
 
+int serviceClass::randomInt() {
+	return _random.get()->nextInt(INT_MAX-1);
+}
+
 int serviceClass::randomStep(int max) {
 		return _random.get()->nextInt(max+1);
 	}
