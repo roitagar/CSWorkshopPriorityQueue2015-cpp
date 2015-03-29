@@ -17,6 +17,8 @@ public:
 		return _totalPackets;
 	}
 
+	virtual void dropGenerator() { };
+
 };
 
 class GradedWorkerBase : public CCP::Thread {
@@ -207,7 +209,8 @@ public:
 
 	~AdvancedInsertWorker()
 	{
-		delete _generator;
+		if(_generator)
+			delete _generator;
 	}
 
 	virtual void run()
@@ -223,6 +226,8 @@ public:
 
 		serviceClass::cleanup();
 	}
+
+	virtual void dropGenerator() { _generator = NULL; };
 };
 
 
@@ -241,6 +246,12 @@ public:
 		_queue = queue;
 		_totalPackets = 0;
 		_finishWithValue = finishWithValue;
+	}
+
+	~AdvancedInsertWorkerUntilValue()
+	{
+		if(_generator)
+			delete _generator;
 	}
 
 	virtual void run()
@@ -263,6 +274,8 @@ public:
 
 		serviceClass::cleanup();
 	}
+
+	virtual void dropGenerator() { _generator = NULL; };
 };
 
 class AdvancedDeleteWorker : public GradedWorkerBase

@@ -3,11 +3,12 @@
 #include "../PriorityQueue/news/LazyLockSparyListPriorityQueue.h"
 
 class PriorityQueueFactory {
+public:
 	virtual IPriorityQueue* Create(int skiplistHeight) = 0;
 	virtual const char* getQueueType() = 0;
 };
 
-class GlobalLockSprayListPriorityQueueFactory : PriorityQueueFactory {
+class GlobalLockSprayListPriorityQueueFactory : public PriorityQueueFactory {
 	virtual IPriorityQueue* Create(int skiplistHeight) {
 		return new GlobalLockSprayListPriorityQueue(skiplistHeight);
 	}
@@ -30,21 +31,11 @@ class GlobalLockSprayListPriorityQueueFactory : PriorityQueueFactory {
 //	}
 //}
 
-class LazyLockSparyListPriorityQueueFactory : PriorityQueueFactory {
+class LazyLockSparyListPriorityQueueFactory : public PriorityQueueFactory {
 	virtual IPriorityQueue* Create(int skiplistHeight) {
 		return new LazyLockSparyListPriorityQueue(skiplistHeight);
 	}
 	virtual const char* getQueueType() {
 		return "LazyLockSparyListPriorityQueue_CPP";
-	}
-};
-
-// TODO: is this required?
-class SeqSprayListPriorityQueueFactory : PriorityQueueFactory {
-	virtual IPriorityQueue* Create(int skiplistHeight) {
-		return new SeqSprayListPriorityQueue(skiplistHeight);
-	}
-	virtual const char* getQueueType() {
-		return "SeqSprayListPriorityQueue_CPP";
 	}
 };

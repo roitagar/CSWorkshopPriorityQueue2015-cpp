@@ -47,12 +47,14 @@ public:
 		cleanWorkers();
 	}
 
-	void cleanWorkers()
+	void cleanWorkers(bool deleteGenerators = true)
 	{
 		if(_insertWorkerThreads)
 		{
 			for(int i=0; i < _numInsertWorkers; i++)
 			{
+				if(!deleteGenerators)
+					_insertWorkerThreads[i]->dropGenerator(); // don't delete a shared generator
 				delete _insertWorkerThreads[i];
 			}
 
@@ -181,8 +183,8 @@ public:
 		_queue = queue;
 	}
 
-	inline TestBenchResult* getResult(){
-		return _result;
+	inline TestBenchResult& getResult(){
+		return *_result;
 	}
 
 protected:

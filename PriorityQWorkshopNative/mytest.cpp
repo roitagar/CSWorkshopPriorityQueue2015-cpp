@@ -8,11 +8,12 @@
 #include "Test/Workers.h"
 #include "Test/StopWatch.h"
 #include "Test/TestBench.h"
+#include "Test/TestBenches.h"
 #include "Test/TestUtils.h"
 #include "Test/PriorityQueueFactory.h"
 #include <string>
 
-#define TOP_LEVEL 10
+#define FACTORIES 2
 
 //void printList(SprayListNode* head)
 //{
@@ -39,155 +40,129 @@
 //		curr = curr->next[0];
 //	}
 //}
-//extern TestBench& testBench1;
-void testBench3(IPriorityQueue* queue);
 
 int main()
 {
-//	//IPriorityQueue* q;
-//	SprayListPriorityQueue* q;
-//	printf("Hi there\n");
-////	q = new NaiveLockSprayListPriorityQueue(TOP_LEVEL);
-//	q = new GrainedLockSprayListPriorityQueue(TOP_LEVEL);
-//	printf("Hi there\n");
-//	q->Insert(5);
-//	printf("Hi there\n");
-//	q->Insert(3);
-//	printf("Hi there\n");
-//	q->Insert(18);
-//	q->Insert(2);
-//	q->Insert(105);
-//	q->Insert(45);
-//	printf("Hi there\n");
-//
-//	// print the skiplist:
-//	printList(q->head());
-//
-//	// deletemin all
-//	while(!q->IsEmpty())
-//	{
-//		printf("Got %d\n", q->DeleteMin());
-//		printList(q->head());
-//	}
-//
-//	delete q;
+	const int skiplistHeight = 10;
+	const int highestOnQueue = 1000;
+	const int timeOutMillisecond = 50;
 
-//	IPriorityQueue* pq = new GrainedLockSprayListPriorityQueue(TOP_LEVEL);
-//	SprayListPriorityQueue* pq = new GrainedLockSprayListPriorityQueue(TOP_LEVEL);
-//	SprayListPriorityQueue* pq = new NaiveLockSprayListPriorityQueue(TOP_LEVEL);
-//	IPriorityQueue* pq = new GlobalLockSprayListPriorityQueue(TOP_LEVEL);
-	IPriorityQueue* pq = new LazyLockSparyListPriorityQueue(TOP_LEVEL);
-//	testBench3(pq);
+	int insertWorkerCount;
+	int deleteWorkerCount;
+	IPriorityQueue* pq = NULL;
 
-	delete pq;
-//	test1.runTest();
-//	testBench1.runTest();
-	std::string res[3];
-	res[0] = "ba";
-	res[1] = "ga";
-	res[2] = "da";
+	PriorityQueueFactory* factories[FACTORIES] = {
+			new GlobalLockSprayListPriorityQueueFactory(),
+//			new CoolSprayListPriorityQueueFactory(),
+//			new OptimisticCoolSprayListPriorityQueueFactory(),
+			new LazyLockSparyListPriorityQueueFactory()
+	};
 
-	saveResult(res, 3);
+	TestBench* simultaneousTests[] = {
+			testBench2,
+			testBench5,
+			testBench8,
+			testBench11,
+			testBench14,
+			testBench7,
+			testBench16,
+	};
 
-	printf("Done!\n");
-//	InsertWorker* w = new InsertWorker(pq, 5,100);
-//
-//	w->start();
-//	w->join();
-//	printf("done");
-//	printf("%d", pq->DeleteMin());
-//
-//	delete w;
-//	DeleteWorker* w2 = new DeleteWorker(pq);
-//	w2->start();
-//	w2->join();
-//	delete w2;
+	TestBench* serialTests[] = {
+			testBench3,
+			testBench6,
+			testBench10,
+			testBench13,
+			testBench15,
+			testBench17,
+	};
+
+	TestBench** tests[] = {simultaneousTests, serialTests};
+	int testCount[] = {7, 6};
+
+	string result[21];
+
+	for(int fact=0;fact<FACTORIES; fact++)
+	{
+		PriorityQueueFactory& factory = *(factories[fact]);
+		int inserters[2][8]	= {{1, 2, 3, 4, 1, 7, 1, 3}, {1, 2, 3, 4, 5, 6, 7, 8}};
+		int deleters[2][8]	= {{1, 2, 3, 4, 7, 1, 3, 1}, {1, 2, 3, 4, 5, 6, 7, 8}};
+		for(int i=0;i<2/*inserters.length*/;i++)
+		{
+			// Print headers // TODO: Remove?
+			result[0] = "Queue type";
+			result[1] = "Set";
+			result[2] = "Threads";
+			result[3] = "Test";
+			// TODO: Test name?
+			result[4] = "Iwrkr";
+			result[5] = "Dwrkr";
+			result[6] = "Icnt";
+			result[7] = "Itime";
+			result[8] = "Dcnt";
+			result[9] = "Dtime";
+			result[10] = "t-out";
+			result[11] = "highest";
+			result[12] = "height";
+			result[13] = "Grades";
+			saveResult(result, 14);
+
+			for(int j=0;j<8/*inserters[i].length*/;j++)
+			{
+				insertWorkerCount = inserters[i][j];
+				deleteWorkerCount = deleters[i][j];
+
+				for(int k=0;k<testCount[i];k++)
+				{
+					TestBench& tb = *(tests[i][k]);
+					pq = factory.Create(skiplistHeight);
+					tb.setQueue(pq);
+					tb.setNumDeleteWorkers(deleteWorkerCount);
+					tb.setNumInsertWorkers(insertWorkerCount);
+					tb.setHighestOnQueue(highestOnQueue);
+					tb.setTimeOutMillisecond(timeOutMillisecond);
+
+					tb.runTest();
+
+					// prepare result output
+//					result = new ArrayList<String>();
+
+					int fields = 13;
+					result[0] = factory.getQueueType(); // queue type
+					result[1] = to_string(i); // Test series index
+					result[2] = to_string(j); // Thread composition index
+					result[3] = to_string(k); // Test index
+					// TODO: Test name?
+					result[4] = to_string(insertWorkerCount); // Insert worker count
+					result[5] = to_string(deleteWorkerCount); // Delete worker count
+					result[6] = to_string(tb.getResult().insertCount); // Insert count
+					result[7] = to_string(tb.getResult().insertTime); // Insert time
+					result[8] = to_string(tb.getResult().deleteCount); // Delete count
+					result[9] = to_string(tb.getResult().deleteTime); // Delete time
+					result[10] = to_string(timeOutMillisecond); // Set timeout
+					result[11] = to_string(highestOnQueue); // Highest setting
+					result[12] = to_string(skiplistHeight); // Skiplist height
+
+					// Grade
+					if(tb.getResult().grade != null) {
+						for(int l = 0;l<deleteWorkerCount;l++){
+							result[13+l] = to_string(tb.getResult().grade[l]);
+							fields++;
+						}
+					}
+
+					// Write result to output
+					saveResult(result, fields);
+
+					delete pq;
+				}
+			}
+		}
+	}
+
+	for(int fact=0;fact<FACTORIES;fact++)
+	{
+		delete factories[fact];
+	}
 }
-//class : public TestBench {
-//	virtual void run() { printf("It's alive\n");}
-//} test1;
-//
-//TestBench& testBench1 = test1;
-//	void testBench3(IPriorityQueue* queue) {
-//		StopWatch* timer1 = new StopWatch();
-//		StopWatch* timer2 = new StopWatch();
-//
-//
-//		int numWorkers = 8;
-//
-//		InsertWorker** insertWorkers = new  InsertWorker*[numWorkers];
-////		CCP::Thread* insertWorkerThreads[] = new CCP::Thread*[numWorkers];
-//
-//		for(int i=0;i<numWorkers; i++)
-//		{
-//			insertWorkers[i] = new InsertWorker(queue, 100*i ,100);
-////			insertWorkerThreads[i] = new CCP::Thread(insertWorkers[i]);
-//		}
-//
-//		DeleteWorker** deleteWorkers = new  DeleteWorker*[numWorkers];
-////		Thread[] deleteWorkerThreads = new Thread[numWorkers];
-//
-//		for(int i=0;i<numWorkers; i++)
-//		{
-//			deleteWorkers[i] = new DeleteWorker(queue);
-////			deleteWorkerThreads[i] = new Thread(deleteWorkers[i]);
-//		}
-//
-//
-//		for(int i=0;i<numWorkers;i++)
-//		{
-//			insertWorkers[i]->start();
-//		}
-//
-//
-//
-//		timer1->startTimer();
-//
-//		//    try {
-//			//         Thread.sleep(numMilliseconds);
-//		//    } catch (InterruptedException ignore) {;}
-//
-//
-//		for(int i=0;i<numWorkers;i++)
-//		{
-////			try {
-//				insertWorkers[i]->join();
-//				delete insertWorkers[i];
-////			} catch (InterruptedException ignore) {;}
-//		}
-//
-//		delete [] insertWorkers;
-//
-//		timer1->stopTimer();
-////		printf("List after all insertions:\n");
-////		printForHistogram(queue->head());
-//
-//		printf("Starting delete\n");
-//		timer2->startTimer();
-//		for(int i=0;i<numWorkers;i++)
-//		{
-//			deleteWorkers[i]->start();
-//		}
-//
-////		printf("Mid state:\n");
-////		usleep(3000);
-////		printForHistogram(queue->head());
-//
-//		for(int i=0;i<numWorkers;i++)
-//		{
-////			try {
-//				deleteWorkers[i]->join();
-//				delete deleteWorkers[i];
-////			} catch (InterruptedException ignore) {;}
-//		}
-//
-//		delete [] deleteWorkers;
-//
-//		timer2->stopTimer();
-//		// Output the statistics
-//
-//		printf("insert time %u\n", (unsigned int)timer1->getElapsedTime());
-//		printf("delete time %u\n", (unsigned int)timer2->getElapsedTime());
-//		delete timer1;
-//		delete timer2;
-//	}
+

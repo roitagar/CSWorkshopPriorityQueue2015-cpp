@@ -448,7 +448,9 @@
 			// grade is irrelevant due to decreasing insertion order
 			saveResult(totalCount, totalCount, null);
 
-			cleanWorkers();
+			cleanWorkers(false);
+
+			delete decreasingStepGenerator;
 		}
 	} test8;
 
@@ -504,7 +506,9 @@
 			
 			saveResult(_highest, totalCount, grade);
 
-			cleanWorkers();
+			cleanWorkers(false);
+
+			delete decreasingStepGenerator;
 		}
 	} test9;
 
@@ -578,7 +582,9 @@
 			
 			saveResult(totalInsertCount, totalDeleteCount, grade);
 
-			cleanWorkers();
+			cleanWorkers(false);
+
+			delete decreasingStepGenerator;
 		}
 	} test10;
 
@@ -645,7 +651,9 @@
 			
 			saveResult(totalCount, totalCount, grade);
 
-			cleanWorkers();
+			cleanWorkers(false);
+
+			delete increasingStepGenerator;
 		}
 	} test11;
 
@@ -700,7 +708,9 @@
 			
 			saveResult(_highest, totalCount, grade);
 
-			cleanWorkers();
+			cleanWorkers(false);
+
+			delete increasingStepGenerator;
 		}
 	} test12;
 
@@ -773,7 +783,9 @@
 
 			saveResult(totalInsertCount, totalDeleteCount, grade);
 
-			cleanWorkers();
+			cleanWorkers(false);
+
+			delete increasingStepGenerator;
 		}
 	} test13;
 
@@ -1041,7 +1053,9 @@
 	
 			saveResult(totalInsertCount, totalDeleteCount, grade);
 
-			cleanWorkers();
+			cleanWorkers(false);
+
+			delete increasingStepGenerator;
 		}
 	} test17;
 
