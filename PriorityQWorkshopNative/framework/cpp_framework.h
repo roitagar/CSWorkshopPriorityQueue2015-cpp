@@ -304,12 +304,14 @@ namespace CCP {
 		VolatileType<int>	_writers;
 		VolatileType<int>	_read_waiters;
 		VolatileType<int>	_write_waiters;
-
-		ReentrantReadWriteLock() {
+		bool _fair;
+	public: // TODO: THIS IS A BUGFIX TO FRAMEWORK, ADDING "public"
+		ReentrantReadWriteLock(bool fair = true) {
 			_readers.set(0);
 			_writers.set(0);
 			_read_waiters.set(0);
 			_write_waiters.set(0);
+			_fair = fair;
 			pthread_mutex_init (&_lock,0);    
 			pthread_cond_init  (&_read,0);    
 			pthread_cond_init  (&_write,0);
@@ -317,11 +319,11 @@ namespace CCP {
 		
 		inline_ void readerLock() {
 			pthread_mutex_lock(&_lock);
-			if (_write_waiters.get() > 0 || _writers.get() > 0) {
+			if ((_fair && _write_waiters.get() > 0) || _writers.get() > 0) {
 				++_read_waiters;
 				do {
 					pthread_cond_wait(&_read, &_lock);
-				} while (_writers.get()>0 || _write_waiters.get()>0);
+				} while (_writers.get()>0 || (_fair && _write_waiters.get()>0));
 				--_read_waiters;
 			}
 			++_readers;

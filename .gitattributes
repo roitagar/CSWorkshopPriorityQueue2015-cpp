@@ -9,6 +9,8 @@ PriorityQWorkshopNative/PriorityQueue/NaiveLockSprayListPriorityQueue.h -text sv
 PriorityQWorkshopNative/PriorityQueue/SprayListNode.cpp -text svneol=unset#text/plain
 PriorityQWorkshopNative/PriorityQueue/SprayListPriorityQueue.cpp -text svneol=unset#text/plain
 PriorityQWorkshopNative/PriorityQueue/SprayListPriorityQueue.h -text svneol=unset#text/plain
+PriorityQWorkshopNative/PriorityQueue/news/CoolSprayListPriorityQueue.cpp -text svneol=unset#text/plain
+PriorityQWorkshopNative/PriorityQueue/news/CoolSprayListPriorityQueue.h -text svneol=unset#text/plain
 PriorityQWorkshopNative/PriorityQueue/news/GlobalLockSprayListPriorityQueue.cpp -text svneol=unset#text/plain
 PriorityQWorkshopNative/PriorityQueue/news/GlobalLockSprayListPriorityQueue.h -text svneol=unset#text/plain
 PriorityQWorkshopNative/PriorityQueue/news/IPriorityQueue.h -text svneol=unset#text/plain

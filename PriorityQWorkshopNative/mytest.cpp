@@ -3,6 +3,7 @@
 #include "PriorityQueue/news/IPriorityQueue.h"
 #include "PriorityQueue/news/GlobalLockSprayListPriorityQueue.h"
 #include "PriorityQueue/news/LazyLockSparyListPriorityQueue.h"
+#include "PriorityQueue/news/CoolSprayListPriorityQueue.h"
 #include "PriorityQueue/NaiveLockSprayListPriorityQueue.h"
 #include "PriorityQueue/GrainedLockSprayListPriorityQueue.h"
 #include "Test/Workers.h"
