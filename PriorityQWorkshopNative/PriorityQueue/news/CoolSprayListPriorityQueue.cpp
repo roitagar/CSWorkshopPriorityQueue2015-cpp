@@ -72,8 +72,8 @@ bool CoolSprayListPriorityQueue::insert(int value) {
 	int topLevel = serviceClass::randomLevel(_maxAllowedHeight);
 	bool shouldReleaseLock3 = false;
 	bool reinsert = false; // determine insertion phase
-	CoolSprayListNode** preds = new CoolSprayListNode*[_maxAllowedHeight+1];
-	CoolSprayListNode** succs = new CoolSprayListNode*[_maxAllowedHeight+1];
+	CoolSprayListNode* preds[_maxAllowedHeight+1];
+	CoolSprayListNode* succs[_maxAllowedHeight+1];
 //	Integer temp = null; // TODO: shared_ptr?
 	int temp = 0; // TODO: shared_ptr?
 
@@ -198,7 +198,7 @@ bool CoolSprayListPriorityQueue::insert(int value) {
 				//linearization point for reinsert
 				newNode->reinsert();
 			}
-			else
+			else if(false) /* reinsert is DISABLED due to incompatibility with threadscan*/
 			{
 				// successful insertion completed, now check if we need to help fix linearization by
 				// reinserting a high-valued node from the elimination array to the skiplist
@@ -220,7 +220,7 @@ bool CoolSprayListPriorityQueue::insert(int value) {
 		}
 
 //	}
-//	finally {
+//	finally {s
 		if(shouldReleaseLock3)
 		{
 			_lock3.readerUnlock();
@@ -229,6 +229,8 @@ bool CoolSprayListPriorityQueue::insert(int value) {
 
 		_threads.getAndDecrement();
 //	}
+
+	// TODO: if result == false, delete/collect
 	return result;
 }
 
@@ -247,6 +249,7 @@ bool CoolSprayListPriorityQueue::clean() {
 	CoolSprayListNode* curr;
 	CoolSprayListNode* highest;
 	NodesEliminationArray* newElimArray;
+	NodesEliminationArray* tmpElimArray;
 //	try {
 
 		// Coherence test:
@@ -265,7 +268,7 @@ bool CoolSprayListPriorityQueue::clean() {
 				/* Determine the max number of Healthy element you want to traverse */
 				int p = _threads.get();
 				p = p*(int)(log(p)/log(2)) + 1;
-				int numOfHealtyNodes = p;
+				int numOfHealtyNodes = std::min(p, MAX_ELIMINATION_ARRAY);
 				/* Create an Elimination Array in this size */
 				newElimArray = new NodesEliminationArray(numOfHealtyNodes);
 
@@ -340,6 +343,14 @@ bool CoolSprayListPriorityQueue::clean() {
 						newElimArray->addNode(curr);
 					}
 				}
+
+				// if the node is deleted, it did not enter the elimination array, and can be safely collected
+				// not using "else" here to avoid a race between the "if" and the CAS (markAsEliminationNode)
+				if(curr->isDeleted())
+				{
+					// TODO: cleanup and collect
+				}
+
 				curr = curr->next[0].getReference();
 			}
 
@@ -348,9 +359,11 @@ bool CoolSprayListPriorityQueue::clean() {
 			// Spin until ongoing eliminations are done
 			while(!_elimArray->completed()) { }
 
-			delete _elimArray; // TODO: Verify this is correct + other paths, or shared_ptr
+			tmpElimArray = _elimArray;
 			// publish the ready elimination array
 			_elimArray = newElimArray;
+
+			delete tmpElimArray; // TODO: Verify this is correct + not accessed by other threads? or collect
 
 			highestNodeKey = INT_MIN; // null;
 //		}
@@ -369,8 +382,8 @@ bool CoolSprayListPriorityQueue::clean() {
 
 /* This remove is wait-free and only logically removes the item */
 bool CoolSprayListPriorityQueue::remove(int value) {
-	CoolSprayListNode** preds = new CoolSprayListNode*[_maxAllowedHeight+1];
-	CoolSprayListNode** succs = new CoolSprayListNode*[_maxAllowedHeight+1];
+	CoolSprayListNode* preds[_maxAllowedHeight+1];
+	CoolSprayListNode* succs[_maxAllowedHeight+1];
 	NodeStatus status = find(value, preds, succs);
 	if (status == NodeStatus::NOT_FOUND || status == NodeStatus::DELETED) {
 		return false;
@@ -427,6 +440,7 @@ int CoolSprayListPriorityQueue::deleteMin() {
 			{
 				// Successful elimination
 				result = node->value;
+				// TODO: collect
 				break;
 			}
 		}

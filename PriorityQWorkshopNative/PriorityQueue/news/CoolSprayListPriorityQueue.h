@@ -1,5 +1,8 @@
 #pragma once
 
+#define MAX_SKIPLIST_HEIGHT 32
+#define MAX_ELIMINATION_ARRAY 384 // worst case for 64 processors
+
 #include "IPriorityQueue.h"
 #include "../../framework/cpp_framework.h"
 #include "serviceClass.h"
@@ -8,7 +11,7 @@
 	public:
 		int value;
 		/*The mark in the AtomicMarkableReference is used to the phyiscal deleteion of the last node in the deletion group */ 
-		CCP::AtomicMarkableReference<CoolSprayListNode>* next;
+		CCP::AtomicMarkableReference<CoolSprayListNode> next[MAX_SKIPLIST_HEIGHT];
 	private:
 		CCP::AtomicInteger _status;
 		const int _height;
@@ -25,7 +28,7 @@
 			_height(height)
 		{
 			this->value = value;
-			this->next =  new CCP::AtomicMarkableReference<CoolSprayListNode>[height+1];
+//			this->next =  new CCP::AtomicMarkableReference<CoolSprayListNode>[height+1];
 //			for (int i = 0; i < next.length; i++) {
 //				next[i] = new AtomicMarkableReference<CoolSprayListNode>(null,false);
 //			}
@@ -35,7 +38,7 @@
 
 		~CoolSprayListNode()
 		{
-			delete[] this->next;
+//			delete[] this->next;
 		}
 
 		inline int topLevel()
@@ -116,6 +119,7 @@
 
 			//Try to mark the item as deleted - means that no re-insertion was done (or got the linearization point)
 			if (result->eliminate()) {
+				// TODO: make sure node doesn't point anywhere, and remove from array (replace with sentinel)
 				// successful elimination
 				return result;
 			}
