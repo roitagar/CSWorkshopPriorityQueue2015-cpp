@@ -17,13 +17,15 @@ class GlobalLockSprayListPriorityQueueFactory : public PriorityQueueFactory {
 	}
 };
 
-//class CoolSprayListPriorityQueueWithItemsCounterFactory extends PriorityQueueFactory {
-//	@Override
-//	IPriorityQueue Create(int skiplistHeight) {
-//		return new CoolSprayListPriorityQueue(skiplistHeight, true);
-//	}
-//}
-//
+class CoolSprayListPriorityQueueFactory : public PriorityQueueFactory {
+	virtual IPriorityQueue* Create(int skiplistHeight) {
+		return new CoolSprayListPriorityQueue(skiplistHeight, true);
+	}
+	virtual const char* getQueueType() {
+		return "CoolSprayListPriorityQueue_CPP";
+	}
+};
+
 //class CoolSprayListPriorityQueueWithImpreciseIsEmptyFactory extends PriorityQueueFactory {
 //	@Override
 //	IPriorityQueue Create(int skiplistHeight) {

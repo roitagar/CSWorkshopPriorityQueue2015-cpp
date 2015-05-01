@@ -39,6 +39,7 @@ PriorityQWorkshopNative/framework/sparc_defns.h -text svneol=unset#text/plain
 PriorityQWorkshopNative/framework/sparc_mcas.il -text
 PriorityQWorkshopNative/framework/win_defns.h -text svneol=unset#text/plain
 PriorityQWorkshopNative/makefile -text
+PriorityQWorkshopNative/myrun -text
 PriorityQWorkshopNative/mytest.cpp -text svneol=unset#text/plain
 PriorityQWorkshopNative/util/ThreadRandom.cpp -text svneol=unset#text/plain
 PriorityQWorkshopNative/util/ThreadRandom.h -text svneol=unset#text/plain

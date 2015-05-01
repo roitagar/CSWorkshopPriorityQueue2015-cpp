@@ -76,21 +76,23 @@
 
 	class NodesEliminationArray {
 	private:
-		CoolSprayListNode** arr;
+		CoolSprayListNode* arr[MAX_ELIMINATION_ARRAY];
+		CoolSprayListNode* sentinel;
 		CCP::AtomicInteger deleteMinCounter; // token allocator
 		CCP::AtomicInteger reInsertCounter; // token allocator
 		CCP::AtomicInteger pendingCompletion; // prevents overriding before array access is done
 		int numOfNodes; //number of initial total nodes after all insertions
 	public:
-		NodesEliminationArray(int size) {
-			arr = new CoolSprayListNode*[size];
+		NodesEliminationArray(int size, CoolSprayListNode* sentinel) {
+			this->sentinel = sentinel;
+//			arr = new CoolSprayListNode*[size];
 			numOfNodes = 0;
 
 		}
 
 		~NodesEliminationArray()
 		{
-			delete[] arr;
+//			delete[] arr;
 		}
 
 		void addNode(CoolSprayListNode* node) {
@@ -119,7 +121,8 @@
 
 			//Try to mark the item as deleted - means that no re-insertion was done (or got the linearization point)
 			if (result->eliminate()) {
-				// TODO: make sure node doesn't point anywhere, and remove from array (replace with sentinel)
+				arr[i] = sentinel; // TODO: verify linearizibility vs. reinsert
+				// TODO: collect
 				// successful elimination
 				return result;
 			}
@@ -148,7 +151,7 @@
 
 			// Now get value and check if node is still valid for reinsert
 			CoolSprayListNode* result = arr[i];
-			if (result->isDeleted()) {
+			if (result->isDeleted() || result == sentinel) {
 				// the node was already deleted by some deleteMin
 				// no need to retry - lower nodes were also already eliminated
 				return null;
@@ -199,12 +202,11 @@ protected:
 	CCP::AtomicInteger _itemsInSkipList;
 	CoolSprayListNode* _head;
 	CoolSprayListNode* _tail;
-	/*volatile*/ NodesEliminationArray* _elimArray; // TODO: is volatile required?
+	NodesEliminationArray* volatile _elimArray;
 	CCP::ReentrantLock _lock1; // during the entire cleanup - allows only one cleaner
 	CCP::ReentrantReadWriteLock _lock2; // during delete-group selection - blocks all inserters
 	CCP::ReentrantReadWriteLock _lock3; // during delete-group disconnection and construction - blocks low inserters
-//	volatile CCP::Integer highestNodeKey;
-	/*volatile*/ int highestNodeKey; // TODO: volatile?
+	volatile int highestNodeKey;
 
 public:
 	CoolSprayListPriorityQueue(int maxAllowedHeight, bool fair);

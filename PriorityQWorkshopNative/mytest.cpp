@@ -1,3 +1,4 @@
+#include <memory>
 #include <stdio.h>
 #include "PriorityQueue/IPriorityQueue.h"
 #include "PriorityQueue/news/IPriorityQueue.h"
@@ -53,8 +54,8 @@ int main()
 	IPriorityQueue* pq = NULL;
 
 	PriorityQueueFactory* factories[FACTORIES] = {
-			new GlobalLockSprayListPriorityQueueFactory(),
-//			new CoolSprayListPriorityQueueFactory(),
+//			new GlobalLockSprayListPriorityQueueFactory(),
+			new CoolSprayListPriorityQueueFactory(),
 //			new OptimisticCoolSprayListPriorityQueueFactory(),
 //			new LazyLockSparyListPriorityQueueFactory()
 	};

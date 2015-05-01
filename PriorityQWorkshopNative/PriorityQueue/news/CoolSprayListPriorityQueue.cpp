@@ -1,14 +1,13 @@
 #include "CoolSprayListPriorityQueue.h"
 #include <climits>
 #include <cmath>
-#include <algorithm>
 
 CoolSprayListPriorityQueue::CoolSprayListPriorityQueue(int maxAllowedHeight, bool fair) :
 	_maxAllowedHeight(maxAllowedHeight)
 {
 	_head = new CoolSprayListNode(INT_MIN, maxAllowedHeight);
 	_tail = new CoolSprayListNode(INT_MAX, maxAllowedHeight);
-	_elimArray = new NodesEliminationArray(0);
+	_elimArray = new NodesEliminationArray(0, _tail);
 //	_lock1 = new CCP::ReentrantLock();
 //	_lock2 = new ReentrantReadWriteLock(fair);
 //	_lock3 = new ReentrantReadWriteLock(fair);
@@ -74,8 +73,6 @@ bool CoolSprayListPriorityQueue::insert(int value) {
 	bool reinsert = false; // determine insertion phase
 	CoolSprayListNode* preds[_maxAllowedHeight+1];
 	CoolSprayListNode* succs[_maxAllowedHeight+1];
-//	Integer temp = null; // TODO: shared_ptr?
-	int temp = 0; // TODO: shared_ptr?
 
 	bool result;
 
@@ -83,7 +80,7 @@ bool CoolSprayListPriorityQueue::insert(int value) {
 	_lock2.readerLock();
 //	try {
 		/*in this case we have to wait */
-		temp = highestNodeKey; // local copy to avoid a race condition with assignment of null value
+		int temp = highestNodeKey; // local copy to avoid a race condition with assignment of null value
 		if (/*temp != NULL && */value <temp){
 			shouldReleaseLock3 = true;
 			// Don't interfere with disconnecting and building a delete-group
@@ -94,7 +91,7 @@ bool CoolSprayListPriorityQueue::insert(int value) {
 		}
 
 		/* create a new node */
-		CoolSprayListNode* newNode = new CoolSprayListNode(value, topLevel); // TODO: verify deletion
+		CoolSprayListNode* newNode = new CoolSprayListNode(value, topLevel);
 
 		// Insertion might have two phases:
 		// 		1. insert the requested value
@@ -112,16 +109,16 @@ bool CoolSprayListPriorityQueue::insert(int value) {
 			if (!reinsert && _elimArray->contains(value))
 			{
 				// Node exists, and is pending deletion in the elimination array
-//				return false;
 				result = false;
+				delete newNode; // The new allocated node will not be used
 				break;
 			}
 
 			NodeStatus status = find(value, preds, succs);
 			if(!reinsert && status == NodeStatus::FOUND) {
 				/* linearization point of unsuccessful insertion */
-//				return false;
 				result = false;
+				delete newNode; // The new allocated node will not be used
 				break;
 			}
 
@@ -134,8 +131,8 @@ bool CoolSprayListPriorityQueue::insert(int value) {
 					logInsertion(true);
 				}
 
-//				return IRevivedIt;
 				result = IRevivedIt;
+				delete newNode; // The new allocated node will not be used
 				break;
 			}
 
@@ -143,8 +140,8 @@ bool CoolSprayListPriorityQueue::insert(int value) {
 			{
 				// some deleteMin successfully eliminated this node, no need to reinsert it
 				// original insertion was successful
-//				return true;
 				result = true;
+				// TODO: verify collect responsibility?
 				break;
 			}
 
@@ -198,7 +195,7 @@ bool CoolSprayListPriorityQueue::insert(int value) {
 				//linearization point for reinsert
 				newNode->reinsert();
 			}
-			else if(false) /* reinsert is DISABLED due to incompatibility with threadscan*/
+			else if(false) /* TODO: reinsert is DISABLED due to incompatibility with threadscan*/
 			{
 				// successful insertion completed, now check if we need to help fix linearization by
 				// reinserting a high-valued node from the elimination array to the skiplist
@@ -214,7 +211,6 @@ bool CoolSprayListPriorityQueue::insert(int value) {
 			}
 
 			// success
-//			return true;
 			result = true;
 			break;
 		}
@@ -230,7 +226,6 @@ bool CoolSprayListPriorityQueue::insert(int value) {
 		_threads.getAndDecrement();
 //	}
 
-	// TODO: if result == false, delete/collect
 	return result;
 }
 
@@ -270,7 +265,7 @@ bool CoolSprayListPriorityQueue::clean() {
 				p = p*(int)(log(p)/log(2)) + 1;
 				int numOfHealtyNodes = std::min(p, MAX_ELIMINATION_ARRAY);
 				/* Create an Elimination Array in this size */
-				newElimArray = new NodesEliminationArray(numOfHealtyNodes);
+				newElimArray = new NodesEliminationArray(numOfHealtyNodes, _tail);
 
 				/* Traverse the list in the bottom level look for healthy element, and find an optimal group */
 				foundHealthyNodes = 0;
@@ -296,7 +291,7 @@ bool CoolSprayListPriorityQueue::clean() {
 					curr = curr->next[0].getReference();
 				}
 
-				highestNodeKey = highest->value; // TODO: fix
+				highestNodeKey = highest->value;
 
 				if(firstNode == _tail)
 				{
@@ -304,10 +299,11 @@ bool CoolSprayListPriorityQueue::clean() {
 					highestNodeKey = INT_MIN; // null;
 					_lock2.writerUnlock();
 					_lock3.writerUnlock();
+					_lock1.unlock();
 					return false;
 				}
 //			}
-//			finally { // TODO: Fix
+//			finally {
 //				_lock2.writeLock().unlock(); // high-valued inserts can go on
 //			}
 
@@ -337,6 +333,14 @@ bool CoolSprayListPriorityQueue::clean() {
 				if(curr == highest) // last node to process
 					done = true;
 
+				// clean next references, to prevent accessing collected nodes
+				CoolSprayListNode* next = curr->next[0].getReference();
+
+				for(int level=curr->topLevel(); level>=0; level--)
+				{
+					curr->next[level].set(_tail, false);
+				}
+
 				if (!curr->isDeleted()) {
 					// Try to mark it as node of the eliminataion array.
 					if (curr->markAsEliminationNode()) {
@@ -348,10 +352,10 @@ bool CoolSprayListPriorityQueue::clean() {
 				// not using "else" here to avoid a race between the "if" and the CAS (markAsEliminationNode)
 				if(curr->isDeleted())
 				{
-					// TODO: cleanup and collect
+					// TODO: collect
 				}
 
-				curr = curr->next[0].getReference();
+				curr = next;
 			}
 
 			logCleanup(actualLen);
@@ -363,7 +367,7 @@ bool CoolSprayListPriorityQueue::clean() {
 			// publish the ready elimination array
 			_elimArray = newElimArray;
 
-			delete tmpElimArray; // TODO: Verify this is correct + not accessed by other threads? or collect
+			// delete tmpElimArray; // TODO: collect
 
 			highestNodeKey = INT_MIN; // null;
 //		}
@@ -458,7 +462,7 @@ int CoolSprayListPriorityQueue::deleteMin() {
 
 		// Normal spray
 		int p = _threads.get();
-		int K = 0;
+		int K = 0; // TODO: K=2?
 		int H =  std::min((int) (log(p)/log(2))+K, _maxAllowedHeight);
 		int L = (int) (pow((log(p)/log(2)),3));
 		int D = 1; /* Math.max(1, log(log(p))) */
