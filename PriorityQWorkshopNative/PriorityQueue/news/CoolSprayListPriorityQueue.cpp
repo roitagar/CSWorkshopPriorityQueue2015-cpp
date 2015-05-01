@@ -2,6 +2,8 @@
 #include <climits>
 #include <cmath>
 
+extern "C" void threadscan_collect (void *ptr);
+
 CoolSprayListPriorityQueue::CoolSprayListPriorityQueue(int maxAllowedHeight, bool fair) :
 	_maxAllowedHeight(maxAllowedHeight)
 {
@@ -353,6 +355,7 @@ bool CoolSprayListPriorityQueue::clean() {
 				if(curr->isDeleted())
 				{
 					// TODO: collect
+					threadscan_collect(curr);
 				}
 
 				curr = next;
@@ -367,7 +370,8 @@ bool CoolSprayListPriorityQueue::clean() {
 			// publish the ready elimination array
 			_elimArray = newElimArray;
 
-			// delete tmpElimArray; // TODO: collect
+//			delete tmpElimArray; // TODO: collect
+			threadscan_collect(tmpElimArray);
 
 			highestNodeKey = INT_MIN; // null;
 //		}
@@ -444,7 +448,9 @@ int CoolSprayListPriorityQueue::deleteMin() {
 			{
 				// Successful elimination
 				result = node->value;
-				// TODO: collect
+				// TODO: collect here or inside?
+				// TODO: is it correct to do it here?
+				threadscan_collect(node);
 				break;
 			}
 		}

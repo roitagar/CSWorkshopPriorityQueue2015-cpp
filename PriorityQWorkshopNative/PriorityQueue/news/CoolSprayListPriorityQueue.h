@@ -122,7 +122,7 @@
 			//Try to mark the item as deleted - means that no re-insertion was done (or got the linearization point)
 			if (result->eliminate()) {
 				arr[i] = sentinel; // TODO: verify linearizibility vs. reinsert
-				// TODO: collect
+				// TODO: collection performed outside?
 				// successful elimination
 				return result;
 			}
