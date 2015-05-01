@@ -299,6 +299,7 @@ bool CoolSprayListPriorityQueue::clean() {
 				{
 					// No nodes to remove
 					highestNodeKey = INT_MIN; // null;
+					delete newElimArray;
 					_lock2.writerUnlock();
 					_lock3.writerUnlock();
 					_lock1.unlock();

@@ -1,6 +1,7 @@
 * text=auto !eol
 PriorityQWorkshopNative/.cproject -text svneol=unset#text/plain
 PriorityQWorkshopNative/.project -text svneol=unset#text/plain
+PriorityQWorkshopNative/PriorityQWorkshopNative[!!-~]Default.launch -text svneol=unset#text/plain
 PriorityQWorkshopNative/PriorityQueue/GrainedLockSprayListPriorityQueue.cpp -text svneol=unset#text/plain
 PriorityQWorkshopNative/PriorityQueue/GrainedLockSprayListPriorityQueue.h -text svneol=unset#text/plain
 PriorityQWorkshopNative/PriorityQueue/IPriorityQueue.h -text svneol=unset#text/plain
