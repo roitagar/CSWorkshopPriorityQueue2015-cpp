@@ -2,7 +2,11 @@
 #include <climits>
 #include <cmath>
 
-extern "C" void threadscan_collect (void *ptr);
+// ThreadScan is C, and its header is incompatible with C++
+extern "C"
+{
+#include "../../include/threadscan.h"
+}
 
 CoolSprayListPriorityQueue::CoolSprayListPriorityQueue(int maxAllowedHeight, bool fair) :
 	_maxAllowedHeight(maxAllowedHeight)

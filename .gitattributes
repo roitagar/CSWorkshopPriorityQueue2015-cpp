@@ -40,6 +40,7 @@ PriorityQWorkshopNative/framework/sparc64_defns.h -text svneol=unset#text/plain
 PriorityQWorkshopNative/framework/sparc_defns.h -text svneol=unset#text/plain
 PriorityQWorkshopNative/framework/sparc_mcas.il -text
 PriorityQWorkshopNative/framework/win_defns.h -text svneol=unset#text/plain
+PriorityQWorkshopNative/include/threadscan.h -text svneol=unset#text/plain
 PriorityQWorkshopNative/libthreadscan.so -text
 PriorityQWorkshopNative/makefile -text
 PriorityQWorkshopNative/mytest.cpp -text svneol=unset#text/plain
