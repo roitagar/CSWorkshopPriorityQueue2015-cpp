@@ -12,7 +12,7 @@ class InsertWorker : public CCP::Thread {
 protected:
 	int _totalPackets;
 public:
-	int totalPackets()
+	virtual int totalPackets()
 	{
 		return _totalPackets;
 	}
@@ -75,7 +75,7 @@ public:
 		return grade;
 	}
 
-	int totalPackets()
+	virtual int totalPackets()
 	{
 		return _values.size();
 	}

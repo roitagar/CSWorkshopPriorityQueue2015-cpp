@@ -341,7 +341,7 @@ bool CoolSprayListPriorityQueue::clean() {
 
 				for(int level=curr->topLevel(); level>=0; level--)
 				{
-					curr->next[level].set(_tail, false);
+					curr->next[level].set(_tail, true);
 				}
 
 				if (!curr->isDeleted()) {
@@ -355,7 +355,7 @@ bool CoolSprayListPriorityQueue::clean() {
 				// not using "else" here to avoid a race between the "if" and the CAS (markAsEliminationNode)
 				if(curr->isDeleted())
 				{
-					// TODO: collect
+					// collect
 					threadscan_collect(curr);
 				}
 
@@ -371,7 +371,7 @@ bool CoolSprayListPriorityQueue::clean() {
 			// publish the ready elimination array
 			_elimArray = newElimArray;
 
-//			delete tmpElimArray; // TODO: collect
+			// collect
 			threadscan_collect(tmpElimArray);
 
 			highestNodeKey = INT_MIN; // null;
@@ -451,6 +451,7 @@ int CoolSprayListPriorityQueue::deleteMin() {
 				result = node->value;
 				// TODO: collect here or inside?
 				// TODO: is it correct to do it here?
+				// collect
 				threadscan_collect(node);
 				break;
 			}
