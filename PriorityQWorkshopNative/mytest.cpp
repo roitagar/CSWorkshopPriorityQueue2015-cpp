@@ -15,7 +15,7 @@
 #include "Test/PriorityQueueFactory.h"
 #include <string>
 
-#define FACTORIES 1
+#define FACTORIES 2
 
 //void printList(SprayListNode* head)
 //{
@@ -54,7 +54,7 @@ int main()
 	IPriorityQueue* pq = NULL;
 
 	PriorityQueueFactory* factories[FACTORIES] = {
-//			new GlobalLockSprayListPriorityQueueFactory(),
+			new GlobalLockSprayListPriorityQueueFactory(),
 			new CoolSprayListPriorityQueueFactory(),
 //			new OptimisticCoolSprayListPriorityQueueFactory(),
 //			new LazyLockSparyListPriorityQueueFactory()

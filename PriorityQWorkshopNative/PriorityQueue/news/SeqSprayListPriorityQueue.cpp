@@ -148,6 +148,8 @@ boolean SeqSprayListPriorityQueue::remove(int value)
 			// Don't remove tail
 			// We got here because the list was empty during deleteMin
 			// this lets deleteMin retry only if the list is not empty
+			delete [] preds;
+			delete [] succs;
 			return isEmpty();
 		}
 
