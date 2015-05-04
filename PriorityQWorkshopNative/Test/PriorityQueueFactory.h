@@ -19,10 +19,19 @@ class GlobalLockSprayListPriorityQueueFactory : public PriorityQueueFactory {
 
 class CoolSprayListPriorityQueueFactory : public PriorityQueueFactory {
 	virtual IPriorityQueue* Create(int skiplistHeight) {
-		return new CoolSprayListPriorityQueue(skiplistHeight, true);
+		return new CoolSprayListPriorityQueue(skiplistHeight, false);
 	}
 	virtual const char* getQueueType() {
 		return "CoolSprayListPriorityQueue_CPP";
+	}
+};
+
+class CoolSprayListPriorityQueueFairLockFactory : public PriorityQueueFactory {
+	virtual IPriorityQueue* Create(int skiplistHeight) {
+		return new CoolSprayListPriorityQueue(skiplistHeight, true);
+	}
+	virtual const char* getQueueType() {
+		return "CoolSprayListPriorityQueueFairLock_CPP";
 	}
 };
 

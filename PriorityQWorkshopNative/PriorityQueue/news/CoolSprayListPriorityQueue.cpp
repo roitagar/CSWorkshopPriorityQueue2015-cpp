@@ -9,7 +9,7 @@ extern "C"
 }
 
 CoolSprayListPriorityQueue::CoolSprayListPriorityQueue(int maxAllowedHeight, bool fair) :
-	_maxAllowedHeight(maxAllowedHeight)
+	_maxAllowedHeight(maxAllowedHeight), _lock2(fair), _lock3(fair)
 {
 	_head = new CoolSprayListNode(INT_MIN, maxAllowedHeight);
 	_tail = new CoolSprayListNode(INT_MAX, maxAllowedHeight);

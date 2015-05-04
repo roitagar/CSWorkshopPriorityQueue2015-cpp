@@ -15,7 +15,7 @@
 #include "Test/PriorityQueueFactory.h"
 #include <string>
 
-#define FACTORIES 2
+#define FACTORIES 3
 
 //void printList(SprayListNode* head)
 //{
@@ -56,6 +56,7 @@ int main()
 	PriorityQueueFactory* factories[FACTORIES] = {
 			new GlobalLockSprayListPriorityQueueFactory(),
 			new CoolSprayListPriorityQueueFactory(),
+			new CoolSprayListPriorityQueueFairLockFactory(),
 //			new OptimisticCoolSprayListPriorityQueueFactory(),
 //			new LazyLockSparyListPriorityQueueFactory()
 	};
@@ -82,13 +83,14 @@ int main()
 	TestBench** tests[] = {simultaneousTests, serialTests};
 	int testCount[] = {7, 6};
 
-	string result[21];
+	string result[200];
 
 	for(int fact=0;fact<FACTORIES; fact++)
 	{
 		PriorityQueueFactory& factory = *(factories[fact]);
-		int inserters[2][8]	= {{1, 2, 3, 4, 1, 7, 1, 3}, {1, 2, 3, 4, 5, 6, 7, 8}};
-		int deleters[2][8]	= {{1, 2, 3, 4, 7, 1, 3, 1}, {1, 2, 3, 4, 5, 6, 7, 8}};
+		const int threadConfigurations = 8;
+		int inserters[2][threadConfigurations]	= {{1, 20, 30, 40, 10, 70, 10, 30}, {1, 20, 30, 40, 50, 60, 70, 80}};
+		int deleters[2][threadConfigurations]	= {{1, 20, 30, 40, 70, 10, 30, 10}, {1, 20, 30, 40, 50, 60, 70, 80}};
 		for(int i=0;i<2/*inserters.length*/;i++)
 		{
 			// Print headers // TODO: Remove?
@@ -109,7 +111,7 @@ int main()
 			result[13] = "Grades";
 			saveResult(result, 14);
 
-			for(int j=0;j<8/*inserters[i].length*/;j++)
+			for(int j=0;j<threadConfigurations/*inserters[i].length*/;j++)
 			{
 				insertWorkerCount = inserters[i][j];
 				deleteWorkerCount = deleters[i][j];

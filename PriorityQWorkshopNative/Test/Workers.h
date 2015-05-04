@@ -19,6 +19,7 @@ public:
 
 	virtual void dropGenerator() { };
 
+	virtual ~InsertWorker() {}
 };
 
 class GradedWorkerBase : public CCP::Thread {
@@ -31,6 +32,8 @@ public:
 		_queue(queue)
 	{
 	}
+
+	virtual ~GradedWorkerBase() {}
 
 	int deleteMin(){
 		int result = _queue->deleteMin();
@@ -118,6 +121,7 @@ public:
 	{
 		this->_queue = queue;
 	}
+	virtual ~SimpleDeleteWorker() {}
 
 	void run()
 	{
@@ -154,6 +158,8 @@ public:
 		_runs=runs;
 		_highest = highest;
 	}
+
+	virtual ~AdvancedInsertAndDelete(){}
 
 	virtual void run()
 	{
@@ -207,7 +213,7 @@ public:
 		_totalPackets = 0;
 	}
 
-	~AdvancedInsertWorker()
+	virtual ~AdvancedInsertWorker()
 	{
 		if(_generator)
 			delete _generator;
@@ -248,7 +254,7 @@ public:
 		_finishWithValue = finishWithValue;
 	}
 
-	~AdvancedInsertWorkerUntilValue()
+	virtual ~AdvancedInsertWorkerUntilValue()
 	{
 		if(_generator)
 			delete _generator;
@@ -293,6 +299,8 @@ public:
 		_queue = queue;
 	}
 
+	virtual ~AdvancedDeleteWorker() {}
+
 	virtual void run()
 	{
 		// if done is triggered and queue is not empty, reallyDone would keep the loop running.
@@ -330,11 +338,13 @@ public:
 		_queue = queue;
 	}
 
+	virtual ~AdvancedDeleteWorkerWithoutEmptying() {}
+
 	virtual void run()
 	{
 		// if done is triggered and queue is not empty, reallyDone would keep the loop running.
 		// if done is triggered and queue is empty, the loop will not set reallyDone back to false, and exit.
-		boolean done = false;
+		bool done = false;
 		while( !done ) {
 			done = *_done; // if done is marked, we might need to finish
 			int result;
