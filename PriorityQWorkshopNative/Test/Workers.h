@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../PriorityQueue/IPriorityQueue.h"
 #include "../PriorityQueue/news/IPriorityQueue.h"
 #include "../framework/cpp_framework.h"
 #include <stdio.h>

@@ -1,4 +1,4 @@
-CPPSRCS		= mytest.cpp PriorityQueue/SprayListNode.cpp PriorityQueue/SprayListPriorityQueue.cpp PriorityQueue/NaiveLockSprayListPriorityQueue.cpp PriorityQueue/GrainedLockSprayListPriorityQueue.cpp util/ThreadRandom.cpp framework/cpp_framework.cpp PriorityQueue/news/serviceClass.cpp PriorityQueue/news/SeqSprayListPriorityQueue.cpp PriorityQueue/news/GlobalLockSprayListPriorityQueue.cpp PriorityQueue/news/LazyLockSparyListPriorityQueue.cpp Test/TestBenches.cpp PriorityQueue/news/CoolSprayListPriorityQueue.cpp
+CPPSRCS		= mytest.cpp util/ThreadRandom.cpp framework/cpp_framework.cpp PriorityQueue/news/serviceClass.cpp PriorityQueue/news/SeqSprayListPriorityQueue.cpp PriorityQueue/news/GlobalLockSprayListPriorityQueue.cpp PriorityQueue/news/LazyLockSparyListPriorityQueue.cpp Test/TestBenches.cpp PriorityQueue/news/CoolSprayListPriorityQueue.cpp
 TARGET		= myrun
 
 CPP		= g++

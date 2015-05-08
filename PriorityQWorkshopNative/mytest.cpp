@@ -1,12 +1,9 @@
 #include <memory>
 #include <stdio.h>
-#include "PriorityQueue/IPriorityQueue.h"
 #include "PriorityQueue/news/IPriorityQueue.h"
 #include "PriorityQueue/news/GlobalLockSprayListPriorityQueue.h"
 #include "PriorityQueue/news/LazyLockSparyListPriorityQueue.h"
 #include "PriorityQueue/news/CoolSprayListPriorityQueue.h"
-#include "PriorityQueue/NaiveLockSprayListPriorityQueue.h"
-#include "PriorityQueue/GrainedLockSprayListPriorityQueue.h"
 #include "Test/Workers.h"
 #include "Test/StopWatch.h"
 #include "Test/TestBench.h"

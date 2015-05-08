@@ -3,14 +3,6 @@ PriorityQWorkshopNative/.cproject -text svneol=unset#text/plain
 PriorityQWorkshopNative/.gdbinit -text
 PriorityQWorkshopNative/.project -text svneol=unset#text/plain
 PriorityQWorkshopNative/PriorityQWorkshopNative[!!-~]Default.launch -text svneol=unset#text/plain
-PriorityQWorkshopNative/PriorityQueue/GrainedLockSprayListPriorityQueue.cpp -text svneol=unset#text/plain
-PriorityQWorkshopNative/PriorityQueue/GrainedLockSprayListPriorityQueue.h -text svneol=unset#text/plain
-PriorityQWorkshopNative/PriorityQueue/IPriorityQueue.h -text svneol=unset#text/plain
-PriorityQWorkshopNative/PriorityQueue/NaiveLockSprayListPriorityQueue.cpp -text svneol=unset#text/plain
-PriorityQWorkshopNative/PriorityQueue/NaiveLockSprayListPriorityQueue.h -text svneol=unset#text/plain
-PriorityQWorkshopNative/PriorityQueue/SprayListNode.cpp -text svneol=unset#text/plain
-PriorityQWorkshopNative/PriorityQueue/SprayListPriorityQueue.cpp -text svneol=unset#text/plain
-PriorityQWorkshopNative/PriorityQueue/SprayListPriorityQueue.h -text svneol=unset#text/plain
 PriorityQWorkshopNative/PriorityQueue/news/CoolSprayListPriorityQueue.cpp -text svneol=unset#text/plain
 PriorityQWorkshopNative/PriorityQueue/news/CoolSprayListPriorityQueue.h -text svneol=unset#text/plain
 PriorityQWorkshopNative/PriorityQueue/news/GlobalLockSprayListPriorityQueue.cpp -text svneol=unset#text/plain
